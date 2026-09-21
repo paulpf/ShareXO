@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -166,15 +166,6 @@ public sealed partial class QRCodeViewModel : ViewModelBase, IDisposable
         if (HasValidContent && SaveRequested != null && await SaveRequested(Text, EffectiveSize))
         {
             StatusText = Localization.Strings.QRCodeViewModel_QRCode_saved;
-        }
-    }
-
-    [RelayCommand]
-    private void UploadImage()
-    {
-        if (HasValidContent)
-        {
-            _services.UploadImage(Text, EffectiveSize);
         }
     }
 

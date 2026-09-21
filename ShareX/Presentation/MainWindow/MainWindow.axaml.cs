@@ -1654,9 +1654,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         else if (e.Key == Key.C && shift) _uploadInfoManager.CopyFile();
         else if (e.Key == Key.C && alt) _uploadInfoManager.CopyImage();
         else if (e.Key == Key.C && control) _uploadInfoManager.TryCopy();
-        else if (e.Key == Key.V && control) UploadManager.ClipboardUploadMainWindow();
-        else if (e.Key == Key.U && control) _uploadInfoManager.Upload();
-        else if (e.Key == Key.D && control) _uploadInfoManager.Download();
         else if (e.Key == Key.E && control) _uploadInfoManager.EditImage();
         else if (e.Key == Key.P && control) _uploadInfoManager.PinToScreen();
         else if (e.Key == Key.Delete && shift) DeleteSelectedFiles();
@@ -1729,24 +1726,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             return;
         }
 
-        FormsDataObject dataObject = new();
-        string[] files = e.DataTransfer.TryGetFiles()?
-            .Select(x => x.TryGetLocalPath())
-            .Where(x => !string.IsNullOrEmpty(x))
-            .Cast<string>().ToArray() ?? Array.Empty<string>();
-
-        if (files.Length > 0)
-        {
-            dataObject.SetData(FormsDataFormats.FileDrop, files);
-        }
-
-        string? text = e.DataTransfer.TryGetText();
-        if (!string.IsNullOrEmpty(text))
-        {
-            dataObject.SetText(text);
-        }
-
-        UploadManager.DragDropUpload(dataObject);
         e.Handled = true;
     }
 

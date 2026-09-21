@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -45,6 +45,5 @@ public sealed class QRCodeServices
     public required Func<QRCodeScanMode, string?, Task<string[]?>> ScanAsync { get; init; }
     public required Func<string, int, string, Task> SaveAsync { get; init; }
     public required Action<string, int> CopyImage { get; init; }
-    public required Action<string, int> UploadImage { get; init; }
     public Action? PlayNotificationSound { get; init; }
 }

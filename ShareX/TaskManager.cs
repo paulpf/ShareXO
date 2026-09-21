@@ -59,9 +59,6 @@ namespace ShareX
                 {
                     task.StatusChanged += Task_StatusChanged;
                     task.ImageReady += Task_ImageReady;
-                    task.UploadStarted += Task_UploadStarted;
-                    task.UploadProgressChanged += Task_UploadProgressChanged;
-                    task.UploadCompleted += Task_UploadCompleted;
                     task.TaskCompleted += Task_TaskCompleted;
                 }
 
@@ -156,30 +153,6 @@ namespace ShareX
             }
         }
 
-        private static void Task_UploadCompleted(WorkerTask task)
-        {
-            TaskInfo info = task.Info;
-
-            if (info != null && info.Result != null && !info.Result.IsError)
-            {
-                string url = info.Result.ToString();
-
-                if (!string.IsNullOrEmpty(url))
-                {
-                    string text = string.Format(Strings.TaskManager_UploadCompletedURL, url);
-
-                    if (info.UploadDuration != null)
-                    {
-                        text += $", Duration: {info.UploadDuration.ElapsedMilliseconds} ms";
-                    }
-
-                    DebugHelper.WriteLine(text);
-                }
-            }
-
-            TaskChanged?.Invoke(task);
-        }
-
         private static void Task_TaskCompleted(WorkerTask task)
         {
             try
@@ -201,8 +174,7 @@ namespace ShareX
 
                         if (!string.IsNullOrEmpty(result))
                         {
-                            if (ApplicationState.Settings.HistorySaveTasks && (!ApplicationState.Settings.HistoryCheckURL ||
-                                !string.IsNullOrEmpty(info.Result.URL) || !string.IsNullOrEmpty(info.Result.ShortenedURL)))
+                            if (ApplicationState.Settings.HistorySaveTasks)
                             {
                                 HistoryItem historyItem = info.GetHistoryItem();
                                 AppendHistoryItemAsync(historyItem);
@@ -217,35 +189,26 @@ namespace ShareX
                         }
                         else if (task.Status == TaskStatus.Failed)
                         {
-                            string errors = info.Result.Errors.ToString();
+                            string errors = info.Result.ErrorsToString();
 
                             DebugHelper.WriteLine($"Task failed. File name: {info.FileName}, Errors:\r\n{errors}");
 
                             TaskHelpers.PlayNotificationSoundAsync(NotificationSound.Error, info.TaskSettings);
 
-                            if (info.Result.Errors.Count > 0)
+                            string errorText = info.Result.FirstErrorLine();
+
+                            if (info.TaskSettings.GeneralSettings.ShowToastNotificationAfterTaskCompleted && !string.IsNullOrEmpty(errorText) &&
+                                (!info.TaskSettings.GeneralSettings.DisableNotificationsOnFullscreen || !CaptureHelpers.IsActiveWindowFullscreen()))
                             {
-                                UploaderErrorInfo error = info.Result.Errors.Errors[0];
-
-                                string title = error.Title;
-
-                                if (string.IsNullOrEmpty(title))
-                                {
-                                    title = Strings.TaskManager_task_UploadCompleted_Error;
-                                }
-
-                                if (info.TaskSettings.GeneralSettings.ShowToastNotificationAfterTaskCompleted && !string.IsNullOrEmpty(error.Text) &&
-                                    (!info.TaskSettings.GeneralSettings.DisableNotificationsOnFullscreen || !CaptureHelpers.IsActiveWindowFullscreen()))
-                                {
-                                    TaskHelpers.ShowNotificationTip(error.Text, "ShareX - " + title, 5000);
-                                }
+                                TaskHelpers.ShowNotificationTip(errorText,
+                                    "ShareX - " + Strings.TaskManager_task_UploadCompleted_Error, 5000);
                             }
                         }
                         else
                         {
                             DebugHelper.WriteLine($"Task completed. File name: {info.FileName}, Duration: {(long)info.TaskDuration.TotalMilliseconds} ms");
 
-                            if (!task.StopRequested && info.Job != TaskJob.ShareURL && !string.IsNullOrEmpty(result))
+                            if (!task.StopRequested && !string.IsNullOrEmpty(result))
                             {
                                 TaskHelpers.PlayNotificationSoundAsync(NotificationSound.TaskCompleted, info.TaskSettings);
 
@@ -273,8 +236,7 @@ namespace ShareX
                                         FilePath = info.FilePath,
                                         Image = task.Image,
                                         Title = "ShareX - " + Strings.TaskManager_task_UploadCompleted_ShareX___Task_completed,
-                                        Text = result,
-                                        URL = info.Result.ToString()
+                                        Text = result
                                     };
 
                                     NotificationWindow.Show(toastConfig);
@@ -308,29 +270,13 @@ namespace ShareX
 
         public static void UpdateProgressUI()
         {
-            bool isTasksWorking = false;
-            double averageProgress = 0;
-
-            IEnumerable<WorkerTask> workingTasks = Tasks.Where(x => x != null && x.Status == TaskStatus.Working && x.Info != null);
-
-            if (workingTasks.Count() > 0)
-            {
-                isTasksWorking = true;
-
-                workingTasks = workingTasks.Where(x => x.Info.Progress != null);
-
-                if (workingTasks.Count() > 0)
-                {
-                    averageProgress = workingTasks.Average(x => x.Info.Progress.Percentage);
-                }
-            }
+            bool isTasksWorking = Tasks.Any(x => x != null && x.Status == TaskStatus.Working && x.Info != null);
 
             if (isTasksWorking)
             {
-                string title = string.Format("{0} - {1:0.0}%", ApplicationInfo.Title, averageProgress);
-                MainWindowIntegration.SetTitle(title);
-                UpdateTrayIcon((int)averageProgress);
-                TaskbarManager.SetProgressValue((int)averageProgress);
+                MainWindowIntegration.SetTitle(ApplicationInfo.Title);
+                UpdateTrayIcon();
+                TaskbarManager.SetProgressState(TaskbarProgressBarStatus.Indeterminate);
             }
             else
             {
