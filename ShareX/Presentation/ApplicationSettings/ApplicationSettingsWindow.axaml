@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -446,35 +446,6 @@
                         </StackPanel>
                     </ScrollViewer>
 
-                    <!-- Upload -->
-                    <ScrollViewer controls:SettingsSearch.PageId="upload" IsVisible="{Binding IsUploadPage}" HorizontalContentAlignment="Stretch" HorizontalScrollBarVisibility="Disabled">
-                        <StackPanel Margin="28,24,28,32" HorizontalAlignment="Stretch">
-                            <Grid Classes="page-title" controls:SettingsSearch.IsPageTitle="True" ColumnDefinitions="Auto,*" ColumnSpacing="9">
-                                <TextBlock Classes="icon page-title-icon" Text="{x:Static theming:LucideIcons.upload}"/>
-                                <TextBlock Grid.Column="1" Classes="page-title-text" Text="{x:Static res:Strings.ApplicationSettingsWindow_Upload}"/>
-                            </Grid>
-                            <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
-                                <StackPanel Spacing="6">
-                                    <Grid ColumnDefinitions="240,*" ColumnSpacing="8">
-                                        <TextBlock Text="{x:Static res:Strings.ApplicationSettingsWindow_SimultaneousUploadLimitLabel}" VerticalAlignment="Center" FontWeight="Normal"/>
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
-                                            <NumericUpDown Classes="form-control" Minimum="0" Maximum="25" Value="{Binding UploadLimit, Mode=TwoWay}"/>
-                                            <TextBlock Classes="hint" Text="{x:Static res:Strings.ApplicationSettingsWindow_ZeroDisablesTheLimit}" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Grid>
-                                    <Grid ColumnDefinitions="240,*" ColumnSpacing="8">
-                                        <TextBlock Text="{x:Static res:Strings.ApplicationSettingsWindow_BufferSizeLabel}" VerticalAlignment="Center" FontWeight="Normal"/>
-                                        <ComboBox Grid.Column="1" Classes="form-control" ItemsSource="{Binding BufferSizeOptions}" SelectedItem="{Binding SelectedBufferSize, Mode=TwoWay}"/>
-                                    </Grid>
-                                    <Grid ColumnDefinitions="240,*" ColumnSpacing="8">
-                                        <TextBlock Text="{x:Static res:Strings.ApplicationSettingsWindow_NumberOfTimesToRetryIfUploadFailsLabel}" VerticalAlignment="Center" FontWeight="Normal"/>
-                                        <NumericUpDown Grid.Column="1" Classes="form-control" Minimum="0" Maximum="5" Value="{Binding MaxUploadFailRetry, Mode=TwoWay}"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </ScrollViewer>
-
                     <!-- History -->
                     <ScrollViewer controls:SettingsSearch.PageId="history" IsVisible="{Binding IsHistoryPage}" HorizontalContentAlignment="Stretch" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel Margin="28,24,28,32" HorizontalAlignment="Stretch">
@@ -486,7 +457,6 @@
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="section-title" Text="{x:Static res:Strings.ApplicationSettingsWindow_History}"/>
                                     <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_SaveTasksToHistory}" IsChecked="{Binding HistorySaveTasks, Mode=TwoWay}"/>
-                                    <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_OnlySaveIfUrlIsNotEmpty}" IsChecked="{Binding HistoryCheckURL, Mode=TwoWay}"/>
                                 </StackPanel>
                             </Border>
                             <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
@@ -647,37 +617,7 @@
 
                             <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
                                 <StackPanel Spacing="6">
-                                    <TextBlock Classes="section-title" Text="{x:Static res:Strings.ApplicationSettingsWindow_AdvancedUpload}"/>
-                                    <StackPanel>
-                                        <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_DisableUpload}" IsChecked="{Binding DisableUpload, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <StackPanel>
-                                        <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_URLEncodeIgnoreEmoji}" IsChecked="{Binding URLEncodeIgnoreEmoji, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <StackPanel>
-                                        <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowMultiUploadWarning}" IsChecked="{Binding ShowMultiUploadWarning, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <Grid ColumnDefinitions="240,*" ColumnSpacing="8">
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="{x:Static res:Strings.ApplicationSettingsWindow_ShowLargeFileSizeWarning}" FontWeight="Normal"/>
-                                        </StackPanel>
-                                        <NumericUpDown Grid.Column="1" Classes="form-control" Minimum="0" Maximum="2147483647" Value="{Binding ShowLargeFileSizeWarning, Mode=TwoWay}"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
-                            <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
-                                <StackPanel Spacing="6">
                                     <TextBlock Classes="section-title" Text="{x:Static res:Strings.ApplicationSettingsWindow_AdvancedPaths}"/>
-                                    <StackPanel>
-                                        <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_UseMachineSpecificUploadersConfig}" IsChecked="{Binding UseMachineSpecificUploadersConfig, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <Grid ColumnDefinitions="240,*" ColumnSpacing="8">
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="{x:Static res:Strings.ApplicationSettingsWindow_CustomUploadersConfigPath}" FontWeight="Normal"/>
-                                        </StackPanel>
-                                        <TextBox Grid.Column="1" Classes="form-control" Text="{Binding CustomUploadersConfigPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Grid>
                                     <Grid ColumnDefinitions="240,*" ColumnSpacing="8">
                                         <StackPanel VerticalAlignment="Center">
                                             <TextBlock Text="{x:Static res:Strings.ApplicationSettingsWindow_CustomHotkeysConfigPath}" FontWeight="Normal"/>

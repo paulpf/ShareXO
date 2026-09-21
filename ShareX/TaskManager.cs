@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -63,7 +63,6 @@ namespace ShareX
                     task.UploadProgressChanged += Task_UploadProgressChanged;
                     task.UploadCompleted += Task_UploadCompleted;
                     task.TaskCompleted += Task_TaskCompleted;
-                    task.UploadersConfigWindowRequested += Task_UploadersConfigWindowRequested;
                 }
 
                 TaskAdded?.Invoke(task);
@@ -279,11 +278,6 @@ namespace ShareX
                                     };
 
                                     NotificationWindow.Show(toastConfig);
-
-                                    if (info.TaskSettings.AfterUploadJob.HasFlag(AfterUploadTasks.ShowAfterUploadWindow) && info.IsUploadJob)
-                                    {
-                                        AfterUploadWindowIntegration.Show(info);
-                                    }
                                 }
                             }
                         }
@@ -310,11 +304,6 @@ namespace ShareX
                     }
                 }
             }
-        }
-
-        private static void Task_UploadersConfigWindowRequested(IUploaderService uploaderService)
-        {
-            TaskHelpers.OpenUploadersConfigWindow(uploaderService);
         }
 
         public static void UpdateProgressUI()

@@ -390,14 +390,6 @@ namespace ShareX
 
                 TaskbarManager.SetProgressState(TaskbarProgressBarStatus.Normal);
 
-                bool cancelUpload = false;
-
-                if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.ShowBeforeUploadWindow))
-                {
-                    cancelUpload = !BeforeUploadWindowIntegration.Show(Info);
-                }
-
-                if (!cancelUpload)
                 {
                     OnUploadStarted();
 
@@ -416,10 +408,6 @@ namespace ShareX
                     {
                         OnUploadCompleted();
                     }
-                }
-                else
-                {
-                    Info.Result.IsURLExpected = false;
                 }
             }
         }

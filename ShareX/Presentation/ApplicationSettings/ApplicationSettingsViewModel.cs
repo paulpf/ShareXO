@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -117,7 +117,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     public bool IsSettingsPage => IsPage("settings");
     public bool IsMainWindowPage => IsPage("main-window");
     public bool IsClipboardFormatsPage => IsPage("clipboard-formats");
-    public bool IsUploadPage => IsPage("upload");
     public bool IsHistoryPage => IsPage("history");
     public bool IsPrintPage => IsPage("print");
     public bool IsProxyPage => IsPage("proxy");
@@ -855,7 +854,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
             Nav("settings", Strings.ApplicationSettingsWindow_Settings, LucideIcons.database_backup),
             Nav("main-window", Strings.ApplicationSettingsWindow_MainWindow, LucideIcons.monitor),
             Nav("clipboard-formats", Strings.ApplicationSettingsWindow_ClipboardFormats, LucideIcons.clipboard_list),
-            Nav("upload", Strings.ApplicationSettingsWindow_Upload, LucideIcons.upload),
             Nav("history", Strings.ApplicationSettingsWindow_History, LucideIcons.history),
             Nav("print", Strings.ApplicationSettingsWindow_Print, LucideIcons.printer),
             Nav("proxy", Strings.ApplicationSettingsWindow_Proxy, LucideIcons.network),
@@ -967,7 +965,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         OnPropertyChanged(nameof(IsSettingsPage));
         OnPropertyChanged(nameof(IsMainWindowPage));
         OnPropertyChanged(nameof(IsClipboardFormatsPage));
-        OnPropertyChanged(nameof(IsUploadPage));
         OnPropertyChanged(nameof(IsHistoryPage));
         OnPropertyChanged(nameof(IsPrintPage));
         OnPropertyChanged(nameof(IsProxyPage));

@@ -1791,16 +1791,6 @@ namespace ShareX
                 () => SettingManager.SaveApplicationConfigAsync());
         }
 
-        public static Task<UploadResult> SearchImageUsingGoogleLensAsync(string url)
-        {
-            return new GoogleLensSharingService().CreateSharer(null, null).ShareURLAsync(url);
-        }
-
-        public static Task<UploadResult> SearchImageUsingBingAsync(string url)
-        {
-            return new BingVisualSearchSharingService().CreateSharer(null, null).ShareURLAsync(url);
-        }
-
         public static async Task OCRImage(TaskSettings taskSettings = null)
         {
             if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
@@ -2174,18 +2164,6 @@ namespace ShareX
             }
         }
 
-        public static void OpenUploadersConfigWindow(IUploaderService uploaderService = null)
-        {
-            SettingManager.WaitUploadersConfig();
-            DestinationSettingsIntegration.Show(ApplicationState.UploadersConfig, uploaderService,
-                () => SettingManager.SaveUploadersConfigAsync());
-        }
-
-        public static void OpenCustomUploaderSettingsWindow()
-        {
-            CustomUploaderSettingsIntegration.Show();
-        }
-
         public static string FindMenuLucideIcon(HotkeyType hotkeyType)
         {
             return hotkeyType switch
@@ -2300,103 +2278,6 @@ namespace ShareX
             };
 
             return screenshot;
-        }
-
-        public static void ImportCustomUploader(string filePath)
-        {
-            if (ApplicationState.UploadersConfigOrNull != null)
-            {
-                try
-                {
-                    CustomUploaderItem cui = JsonHelpers.DeserializeFromFile<CustomUploaderItem>(filePath);
-
-                    if (cui != null)
-                    {
-                        bool activate = false;
-
-                        if (cui.DestinationType == CustomUploaderDestinationType.None)
-                        {
-                            MessageBoxResult result = MessageBox.Show(string.Format(Strings.TaskHelpers_AddCustomUploaderConfirmation, cui),
-                                Strings.TaskHelpers_CustomUploaderConfirmationTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-
-                            if (result == MessageBoxResult.No)
-                            {
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            List<string> destinations = new List<string>();
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.ImageUploader)) destinations.Add("images");
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.TextUploader)) destinations.Add("texts");
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.FileUploader)) destinations.Add("files");
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.URLShortener) ||
-                                cui.DestinationType.HasFlag(CustomUploaderDestinationType.URLSharingService)) destinations.Add("urls");
-
-                            string destinationsText = string.Join("/", destinations);
-
-                            MessageBoxResult result = MessageBox.Show(string.Format(Strings.TaskHelpers_SetActiveCustomUploaderConfirmation, cui, destinationsText),
-                                Strings.TaskHelpers_CustomUploaderConfirmationTitle, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                activate = true;
-                            }
-                            else if (result == MessageBoxResult.Cancel)
-                            {
-                                return;
-                            }
-                        }
-
-                        cui.CheckBackwardCompatibility();
-                        ApplicationState.UploadersConfig.CustomUploadersList.Add(cui);
-
-                        if (activate)
-                        {
-                            int index = ApplicationState.UploadersConfig.CustomUploadersList.Count - 1;
-
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.ImageUploader))
-                            {
-                                ApplicationState.UploadersConfig.CustomImageUploaderSelected = index;
-                                ApplicationState.DefaultTaskSettings.ImageDestination = ImageDestination.CustomImageUploader;
-                            }
-
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.TextUploader))
-                            {
-                                ApplicationState.UploadersConfig.CustomTextUploaderSelected = index;
-                                ApplicationState.DefaultTaskSettings.TextDestination = TextDestination.CustomTextUploader;
-                            }
-
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.FileUploader))
-                            {
-                                ApplicationState.UploadersConfig.CustomFileUploaderSelected = index;
-                                ApplicationState.DefaultTaskSettings.FileDestination = FileDestination.CustomFileUploader;
-                            }
-
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.URLShortener))
-                            {
-                                ApplicationState.UploadersConfig.CustomURLShortenerSelected = index;
-                                ApplicationState.DefaultTaskSettings.URLShortenerDestination = UrlShortenerType.CustomURLShortener;
-                            }
-
-                            if (cui.DestinationType.HasFlag(CustomUploaderDestinationType.URLSharingService))
-                            {
-                                ApplicationState.UploadersConfig.CustomURLSharingServiceSelected = index;
-                                ApplicationState.DefaultTaskSettings.URLSharingServiceDestination = URLSharingServices.CustomURLSharingService;
-                            }
-
-                            MainWindowIntegration.RefreshMenus();
-                        }
-
-                        CustomUploaderSettingsIntegration.Refresh(true);
-                    }
-                }
-                catch (Exception e)
-                {
-                    DebugHelper.WriteException(e);
-                    e.ShowError(false);
-                }
-            }
         }
 
         public static void ImportImageEffect(string filePath)
