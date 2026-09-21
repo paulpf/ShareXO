@@ -447,11 +447,6 @@ namespace ShareX
             if (IsItemSelected && SelectedItem.IsURLExist) TaskHelpers.OpenQRCode(SelectedItem.Info.Result.URL);
         }
 
-        public void AnalyzeImage()
-        {
-            if (IsItemSelected && SelectedItem.IsImageFile) TaskHelpers.AnalyzeImage(SelectedItem.Info.FilePath);
-        }
-
         public async Task OCRImage()
         {
             if (IsItemSelected && SelectedItem.IsImageFile) await TaskHelpers.OCRImage(SelectedItem.Info.FilePath);

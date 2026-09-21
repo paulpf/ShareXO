@@ -9,10 +9,6 @@ public sealed class LocalizedDisplayConverter : IValueConverter
     {
         return value switch
         {
-            AIProvider.OpenAI => Localization.Strings.LocalizedDisplayConverter_OpenAI,
-            AIProvider.Gemini => Localization.Strings.LocalizedDisplayConverter_Gemini,
-            AIProvider.OpenRouter => Localization.Strings.LocalizedDisplayConverter_OpenRouter,
-            AIProvider.OpenAILegacy => Localization.Strings.LocalizedDisplayConverter_OpenAI_legacy,
             BackgroundRemovalDevice.Auto => Localization.Strings.LocalizedDisplayConverter_Automatic,
             BackgroundRemovalDevice.GPU => Localization.Strings.LocalizedDisplayConverter_GPU,
             BackgroundRemovalDevice.CPU => Localization.Strings.LocalizedDisplayConverter_CPU,
@@ -25,10 +21,6 @@ public sealed class LocalizedDisplayConverter : IValueConverter
             MonitorPattern.Checkerboard => Localization.Strings.LocalizedDisplayConverter_Checkerboard,
             MonitorMotionDirection.VerticalBars => Localization.Strings.LocalizedDisplayConverter_Vertical_bars,
             MonitorMotionDirection.HorizontalBars => Localization.Strings.LocalizedDisplayConverter_Horizontal_bars,
-            "minimal" => Localization.Strings.LocalizedDisplayConverter_Minimal,
-            "low" => Localization.Strings.LocalizedDisplayConverter_Low,
-            "medium" => Localization.Strings.LocalizedDisplayConverter_Medium,
-            "high" => Localization.Strings.LocalizedDisplayConverter_High,
             null => string.Empty,
             _ => value.ToString() ?? string.Empty
         };

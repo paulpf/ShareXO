@@ -39,15 +39,6 @@ public static class ToolsIntegration
         Show(() => new DirectoryIndexerWindow(settings, uploadRequested));
     }
 
-    public static void ShowAnalyzeImageWindow(
-        string? imagePath,
-        AIOptions options,
-        AnalyzeImageRegionCaptureHandler captureRegion,
-        Action? playNotificationSound = null)
-    {
-        Show(() => new AnalyzeImageWindow(imagePath, options, captureRegion, playNotificationSound));
-    }
-
     public static void ShowBackgroundRemoverWindow(string? modelsFolder, BackgroundRemoverOptions options)
     {
         Show(() => new BackgroundRemoverWindow(modelsFolder, options));

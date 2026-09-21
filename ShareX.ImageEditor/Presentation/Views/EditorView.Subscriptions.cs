@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -54,7 +54,6 @@ namespace ShareX.ImageEditor.Presentation.Views
             vm.OpenImageRequested += OnOpenImageRequested;
             vm.StartScreenRequested += OnStartScreenRequested;
             vm.LoadFromClipboardRequested += OnLoadFromClipboardRequested;
-            vm.LoadFromUrlRequested += OnLoadFromUrlRequested;
             vm.LoadRecentFileRequested += OnLoadRecentFileRequested;
             vm.CopyRequested += OnCopyImageRequested;
             vm.SaveRequested += OnSaveRequested;
@@ -86,7 +85,6 @@ namespace ShareX.ImageEditor.Presentation.Views
             vm.OpenImageRequested -= OnOpenImageRequested;
             vm.StartScreenRequested -= OnStartScreenRequested;
             vm.LoadFromClipboardRequested -= OnLoadFromClipboardRequested;
-            vm.LoadFromUrlRequested -= OnLoadFromUrlRequested;
             vm.LoadRecentFileRequested -= OnLoadRecentFileRequested;
             vm.CopyRequested -= OnCopyImageRequested;
             vm.SaveRequested -= OnSaveRequested;

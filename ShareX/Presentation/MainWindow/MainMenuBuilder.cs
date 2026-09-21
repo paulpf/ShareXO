@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -269,7 +269,6 @@ internal sealed class MainMenuBuilder
         ]),
         new(Strings.MainMenuBuilder_ToolCategoryData,
         [
-            Tool(nameof(Strings.MainMenuBuilder_AnalyzeImage), Strings.MainMenuBuilder_AnalyzeImage, LucideIcons.bot, () => TaskHelpers.AnalyzeImage()),
             Tool(nameof(Strings.MainMenuBuilder_HashChecker), Strings.MainMenuBuilder_HashChecker, LucideIcons.hash, () => TaskHelpers.OpenHashCheck()),
             Tool(nameof(Strings.MainMenuBuilder_IndexFolder), Strings.MainMenuBuilder_IndexFolder, LucideIcons.folder_tree, () => TaskHelpers.OpenDirectoryIndexer()),
             Tool(nameof(Strings.MainMenuBuilder_Metadata), Strings.MainMenuBuilder_Metadata, LucideIcons.tags, () => TaskHelpers.OpenMetadataWindow()),
@@ -418,7 +417,6 @@ internal sealed class MainMenuBuilder
         AfterCaptureTasks.CopyFilePathToClipboard => LucideIcons.clipboard_list,
         AfterCaptureTasks.CopyFolderPathToClipboard => LucideIcons.folder_bookmark,
         AfterCaptureTasks.ShowInExplorer => LucideIcons.folder_open,
-        AfterCaptureTasks.AnalyzeImage => LucideIcons.bot,
         AfterCaptureTasks.ScanQRCode => LucideIcons.qr_code,
         AfterCaptureTasks.DoOCR => LucideIcons.scan_text,
         AfterCaptureTasks.ShowBeforeUploadWindow => LucideIcons.app_window,

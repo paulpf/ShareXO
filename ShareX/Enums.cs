@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -156,7 +156,6 @@ namespace ShareX
         CopyFilePathToClipboard = 1 << 13,
         CopyFolderPathToClipboard = 1 << 14,
         ShowInExplorer = 1 << 15,
-        AnalyzeImage = 1 << 16,
         ScanQRCode = 1 << 17,
         DoOCR = 1 << 18,
         ShowBeforeUploadWindow = 1 << 19,
@@ -315,8 +314,6 @@ namespace ShareX
         VideoTrimmer,
         [Category(EnumExtensions.HotkeyType_Category_Tools)]
         VideoThumbnailer,
-        [Category(EnumExtensions.HotkeyType_Category_Tools)]
-        AnalyzeImage,
         [Category(EnumExtensions.HotkeyType_Category_Tools)]
         OCR,
         [Category(EnumExtensions.HotkeyType_Category_Tools)]

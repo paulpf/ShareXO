@@ -468,7 +468,6 @@ namespace ShareX
         public VideoConverterOptions VideoConverterOptions = new VideoConverterOptions();
         public VideoThumbnailOptions VideoThumbnailOptions = new VideoThumbnailOptions();
         public BorderlessWindowSettings BorderlessWindowSettings = new BorderlessWindowSettings();
-        public AIOptions AIOptions = new AIOptions();
         public ImageEditorOptions ImageEditorOptions = new ImageEditorOptions();
         public BackgroundRemoverOptions BackgroundRemoverOptions = new BackgroundRemoverOptions();
     }

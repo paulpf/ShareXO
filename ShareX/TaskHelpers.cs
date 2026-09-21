@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -311,9 +311,6 @@ namespace ShareX
                     break;
                 case HotkeyType.VideoThumbnailer:
                     OpenVideoThumbnailer(safeTaskSettings);
-                    break;
-                case HotkeyType.AnalyzeImage:
-                    AnalyzeImage(safeTaskSettings);
                     break;
                 case HotkeyType.OCR:
                     if (!string.IsNullOrEmpty(filePath))
@@ -846,7 +843,6 @@ namespace ShareX
                     UploadFile = filePath => UploadManager.UploadFile(filePath),
                     EditImage = filePath => AnnotateImageFromFile(filePath),
                     PinToScreen = filePath => PinToScreen(filePath),
-                    AnalyzeImage = filePath => AnalyzeImage(filePath),
                     ShowImage = filePath => OpenImageViewer(filePath),
                     ShowImages = (filePaths, selectedIndex) =>
                         ImageViewerWindowIntegration.ShowImage(filePaths, selectedIndex)
@@ -861,7 +857,6 @@ namespace ShareX
                     UploadFile = filePath => UploadManager.UploadFile(filePath),
                     EditImage = filePath => AnnotateImageFromFile(filePath),
                     PinToScreen = filePath => PinToScreen(filePath),
-                    AnalyzeImage = filePath => AnalyzeImage(filePath),
                     ShowImage = filePath => OpenImageViewer(filePath),
                     ShowImages = (filePaths, selectedIndex) =>
                         ImageViewerWindowIntegration.ShowImage(filePaths, selectedIndex)
@@ -1806,42 +1801,6 @@ namespace ShareX
             return new BingVisualSearchSharingService().CreateSharer(null, null).ShareURLAsync(url);
         }
 
-        public static void AnalyzeImage(TaskSettings taskSettings = null)
-        {
-            if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
-
-            ShowAnalyzeImageWindow(null, taskSettings);
-        }
-
-        public static void AnalyzeImage(string filePath, TaskSettings taskSettings = null)
-        {
-            if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
-
-            ShowAnalyzeImageWindow(filePath, taskSettings);
-        }
-
-        private static void ShowAnalyzeImageWindow(string filePath, TaskSettings taskSettings)
-        {
-            AIOptions options = taskSettings.ToolsSettingsReference.AIOptions;
-
-            ToolsIntegration.ShowAnalyzeImageWindow(
-                filePath,
-                options,
-                async () =>
-                {
-                    using Bitmap region = await RegionCaptureTasks.GetRegionImageAsync(taskSettings.CaptureSettings.RegionCaptureOptions);
-                    if (region == null)
-                    {
-                        return null;
-                    }
-
-                    using MemoryStream stream = new MemoryStream();
-                    region.Save(stream, ImageFormat.Png);
-                    return stream.ToArray();
-                },
-                () => PlayNotificationSoundAsync(NotificationSound.ActionCompleted, taskSettings));
-        }
-
         public static async Task OCRImage(TaskSettings taskSettings = null)
         {
             if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
@@ -2296,7 +2255,6 @@ namespace ShareX
                 HotkeyType.VideoConverter => LucideIcons.file_video,
                 HotkeyType.VideoTrimmer => LucideIcons.scissors,
                 HotkeyType.VideoThumbnailer => LucideIcons.clapperboard,
-                HotkeyType.AnalyzeImage => LucideIcons.bot,
                 HotkeyType.OCR => LucideIcons.scan_text,
                 HotkeyType.QRCode => LucideIcons.qr_code,
                 HotkeyType.QRCodeDecodeFromScreen => LucideIcons.scan_eye,
