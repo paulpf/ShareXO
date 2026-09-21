@@ -66,7 +66,9 @@ internal static class ApplicationSettingsRuntime
         _hotkeyHost?.ApplyHotkeySettings();
         _hotkeyHost?.UpdateTrayIcon();
 
-        ApplicationState.UpdateManager.AllowAutoUpdate = !SystemOptions.DisableUpdateCheck && settings.AutoCheckUpdate;
+        // Automatic update check is disabled: ShareX must not contact api.github.com on its own.
+        // Passing false here also disposes the update timer via ConfigureAutoUpdate().
+        ApplicationState.UpdateManager.AllowAutoUpdate = false;
         ApplicationState.UpdateManager.UpdateChannel = settings.UpdateChannel;
         ApplicationState.UpdateManager.ConfigureAutoUpdate();
 
