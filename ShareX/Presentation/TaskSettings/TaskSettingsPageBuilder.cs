@@ -23,7 +23,6 @@ using ShareX.ImageEditor.Integration;
 using ShareX.Localization;
 using ShareX.ScreenCaptureLib;
 using ShareX.Tools;
-using ShareX.UploadersLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

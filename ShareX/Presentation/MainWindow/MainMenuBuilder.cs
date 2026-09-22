@@ -18,7 +18,6 @@ using ShareX.AvaloniaUI.Theming;
 using ShareX.HelpersLib;
 using ShareX.Localization;
 using ShareX.ScreenCaptureLib;
-using ShareX.UploadersLib;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -369,20 +368,7 @@ internal sealed class MainMenuBuilder
         AfterCaptureTasks.ShowInExplorer => LucideIcons.folder_open,
         AfterCaptureTasks.ScanQRCode => LucideIcons.qr_code,
         AfterCaptureTasks.DoOCR => LucideIcons.scan_text,
-        AfterCaptureTasks.ShowBeforeUploadWindow => LucideIcons.app_window,
-        AfterCaptureTasks.UploadImageToHost => LucideIcons.upload_cloud,
         AfterCaptureTasks.DeleteFile => LucideIcons.trash_2,
-        _ => LucideIcons.circle
-    };
-
-    private static string GetAfterUploadTaskIcon(AfterUploadTasks task) => task switch
-    {
-        AfterUploadTasks.ShowAfterUploadWindow => LucideIcons.app_window,
-        AfterUploadTasks.UseURLShortener => LucideIcons.link_2,
-        AfterUploadTasks.ShareURL => LucideIcons.share_2,
-        AfterUploadTasks.CopyURLToClipboard => LucideIcons.clipboard_copy,
-        AfterUploadTasks.OpenURL => LucideIcons.external_link,
-        AfterUploadTasks.ShowQRCode => LucideIcons.qr_code,
         _ => LucideIcons.circle
     };
 

@@ -26,7 +26,6 @@
 using ShareX.HelpersLib;
 using ShareX.HistoryLib;
 using ShareX.Localization;
-using ShareX.UploadersLib;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -93,18 +92,7 @@ namespace ShareX
 
             if (inQueueTasks.Length > 0)
             {
-                int len;
-
-                if (ApplicationState.Settings.UploadLimit == 0)
-                {
-                    len = inQueueTasks.Length;
-                }
-                else
-                {
-                    len = (ApplicationState.Settings.UploadLimit - workingTasksCount).Clamp(0, inQueueTasks.Length);
-                }
-
-                for (int i = 0; i < len; i++)
+                for (int i = 0; i < inQueueTasks.Length; i++)
                 {
                     inQueueTasks[i].Start();
                 }

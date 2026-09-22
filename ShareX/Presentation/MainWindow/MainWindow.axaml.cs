@@ -26,8 +26,6 @@ using Avalonia.Threading;
 using ShareX.AvaloniaUI.Theming;
 using ShareX.HelpersLib;
 using ShareX.Localization;
-using ShareX.UploadersLib;
-using ShareX.UploadersLib.FileUploaders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

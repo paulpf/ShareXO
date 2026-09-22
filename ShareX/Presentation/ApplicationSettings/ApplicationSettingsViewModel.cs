@@ -517,18 +517,7 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
     public bool HasSelectedClipboardFormat => SelectedClipboardFormat != null;
 
-    public decimal UploadLimit { get => Settings.UploadLimit; set => SetSetting(Settings.UploadLimit, decimal.ToInt32(value), x => Settings.UploadLimit = x); }
-
-    public EnumOption<int>? SelectedBufferSize
-    {
-        get => Find(BufferSizeOptions, Settings.BufferSizePower);
-        set { if (value != null) SetSetting(Settings.BufferSizePower, value.Value, x => Settings.BufferSizePower = x); }
-    }
-
-    public decimal MaxUploadFailRetry { get => Settings.MaxUploadFailRetry; set => SetSetting(Settings.MaxUploadFailRetry, decimal.ToInt32(value), x => Settings.MaxUploadFailRetry = x); }
-
     public bool HistorySaveTasks { get => Settings.HistorySaveTasks; set => SetSetting(Settings.HistorySaveTasks, value, x => Settings.HistorySaveTasks = x); }
-    public bool HistoryCheckURL { get => Settings.HistoryCheckURL; set => SetSetting(Settings.HistoryCheckURL, value, x => Settings.HistoryCheckURL = x); }
     public bool RecentTasksSave { get => Settings.RecentTasksSave; set => SetSetting(Settings.RecentTasksSave, value, x => Settings.RecentTasksSave = x); }
     public decimal RecentTasksMaxCount { get => Settings.RecentTasksMaxCount; set => SetSetting(Settings.RecentTasksMaxCount, decimal.ToInt32(value), x => Settings.RecentTasksMaxCount = x); }
     public bool RecentTasksShowInMainWindow { get => Settings.RecentTasksShowInMainWindow; set => SetSetting(Settings.RecentTasksShowInMainWindow, value, x => Settings.RecentTasksShowInMainWindow = x); }
@@ -612,13 +601,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     public bool RotateImageByExifOrientationData { get => Settings.RotateImageByExifOrientationData; set => SetSetting(Settings.RotateImageByExifOrientationData, value, x => Settings.RotateImageByExifOrientationData = x); }
     public bool PNGStripColorSpaceInformation { get => Settings.PNGStripColorSpaceInformation; set => SetSetting(Settings.PNGStripColorSpaceInformation, value, x => Settings.PNGStripColorSpaceInformation = x); }
 
-    public bool DisableUpload { get => Settings.DisableUpload; set => SetSetting(Settings.DisableUpload, value, x => Settings.DisableUpload = x); }
-    public bool URLEncodeIgnoreEmoji { get => Settings.URLEncodeIgnoreEmoji; set => SetSetting(Settings.URLEncodeIgnoreEmoji, value, x => Settings.URLEncodeIgnoreEmoji = x); }
-    public bool ShowMultiUploadWarning { get => Settings.ShowMultiUploadWarning; set => SetSetting(Settings.ShowMultiUploadWarning, value, x => Settings.ShowMultiUploadWarning = x); }
-    public decimal ShowLargeFileSizeWarning { get => Settings.ShowLargeFileSizeWarning; set => SetSetting(Settings.ShowLargeFileSizeWarning, decimal.ToInt32(value), x => Settings.ShowLargeFileSizeWarning = x); }
-
-    public bool UseMachineSpecificUploadersConfig { get => Settings.UseMachineSpecificUploadersConfig; set => SetSetting(Settings.UseMachineSpecificUploadersConfig, value, x => Settings.UseMachineSpecificUploadersConfig = x); }
-    public string CustomUploadersConfigPath { get => Settings.CustomUploadersConfigPath ?? string.Empty; set => SetSetting(Settings.CustomUploadersConfigPath, value, x => Settings.CustomUploadersConfigPath = x); }
     public string CustomHotkeysConfigPath { get => Settings.CustomHotkeysConfigPath ?? string.Empty; set => SetSetting(Settings.CustomHotkeysConfigPath, value, x => Settings.CustomHotkeysConfigPath = x); }
     public string CustomScreenshotsPath2 { get => Settings.CustomScreenshotsPath2 ?? string.Empty; set => SetSetting(Settings.CustomScreenshotsPath2, value, x => Settings.CustomScreenshotsPath2 = x); }
 
@@ -989,7 +971,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
             .Select(power => new EnumOption<int>(power, ((long)(Math.Pow(2, power) * 1024)).ToSizeString(Settings.BinaryUnits, 0)))
             .ToArray();
         OnPropertyChanged(nameof(BufferSizeOptions));
-        OnPropertyChanged(nameof(SelectedBufferSize));
     }
 
     private void FlushPersonalPath()

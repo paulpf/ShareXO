@@ -14,7 +14,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using ShareX.HelpersLib;
 using ShareX.Localization;
-using ShareX.UploadersLib;
 using System;
 using System.IO;
 

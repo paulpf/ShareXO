@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -56,8 +56,7 @@ public sealed class NotificationActionButton
     [
         new(ToastClickAction.CopyImageToClipboard),
         new(ToastClickAction.AnnotateImage),
-        new(ToastClickAction.PinToScreen),
-        new(ToastClickAction.Upload)
+        new(ToastClickAction.PinToScreen)
     ];
 
     public static List<NotificationActionButton> CloneButtons(IEnumerable<NotificationActionButton>? buttons) =>
@@ -73,7 +72,6 @@ public sealed class NotificationActionButton
         ToastClickAction.OpenFile => LucideIcons.external_link,
         ToastClickAction.OpenFolder => LucideIcons.folder_open,
         ToastClickAction.OpenUrl => LucideIcons.external_link,
-        ToastClickAction.Upload => LucideIcons.upload,
         ToastClickAction.PinToScreen => LucideIcons.pin,
         ToastClickAction.DeleteFile => LucideIcons.trash_2,
         _ => LucideIcons.x

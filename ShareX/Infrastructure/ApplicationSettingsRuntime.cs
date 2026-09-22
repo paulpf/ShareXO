@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -49,7 +49,6 @@ internal static class ApplicationSettingsRuntime
         ApplicationConfig settings = ApplicationState.Settings;
 
         HelpersOptions.CurrentProxy = settings.ProxySettings;
-        HelpersOptions.URLEncodeIgnoreEmoji = settings.URLEncodeIgnoreEmoji;
         HelpersOptions.DefaultCopyImageFillBackground = settings.DefaultClipboardCopyImageFillBackground;
         HelpersOptions.UseAlternativeClipboardCopyImage = settings.UseAlternativeClipboardCopyImage;
         HelpersOptions.UseAlternativeClipboardGetImage = settings.UseAlternativeClipboardGetImage;

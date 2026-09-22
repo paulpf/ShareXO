@@ -114,14 +114,7 @@ namespace ShareX
 
     public enum TaskJob
     {
-        Job,
-        DataUpload,
-        FileUpload,
-        TextUpload,
-        ShortenURL,
-        ShareURL,
-        Download,
-        DownloadUpload
+        Job
     }
 
     public enum TaskStatus
@@ -158,21 +151,7 @@ namespace ShareX
         ShowInExplorer = 1 << 15,
         ScanQRCode = 1 << 17,
         DoOCR = 1 << 18,
-        ShowBeforeUploadWindow = 1 << 19,
-        UploadImageToHost = 1 << 20,
         DeleteFile = 1 << 21
-    }
-
-    [Flags]
-    public enum AfterUploadTasks // Localized
-    {
-        None = 0,
-        ShowAfterUploadWindow = 1,
-        UseURLShortener = 1 << 1,
-        ShareURL = 1 << 2,
-        CopyURLToClipboard = 1 << 3,
-        OpenURL = 1 << 4,
-        ShowQRCode = 1 << 5
     }
 
     public enum CaptureType
@@ -198,25 +177,6 @@ namespace ShareX
     public enum HotkeyType // Localized
     {
         None,
-        // Upload
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        FileUpload,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        FolderUpload,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        ClipboardUpload,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        ClipboardUploadWithContentViewer,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        UploadText,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        UploadURL,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        DragDropUpload,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        ShortenURL,
-        [Category(EnumExtensions.HotkeyType_Category_Upload)]
-        StopUploads,
         // Screen capture
         [Category(EnumExtensions.HotkeyType_Category_ScreenCapture)]
         PrintScreen,
@@ -374,7 +334,6 @@ namespace ShareX
         OpenFile,
         OpenFolder,
         OpenUrl,
-        Upload,
         PinToScreen,
         DeleteFile
     }
@@ -428,16 +387,6 @@ namespace ShareX
         EnabledByPolicy = StartupTaskState.EnabledByPolicy
     }
 #endif
-
-    public enum NativeMessagingAction
-    {
-        None,
-        UploadImage,
-        UploadVideo,
-        UploadAudio,
-        UploadText,
-        ShortenURL
-    }
 
     public enum NotificationSound
     {

@@ -35,8 +35,6 @@ using ShareX.Properties;
 using ShareX.ScreenCaptureLib;
 using ShareX.Tools;
 using ShareX.Tools.Integration;
-using ShareX.UploadersLib;
-using ShareX.UploadersLib.SharingServices;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System;
@@ -2089,17 +2087,6 @@ namespace ShareX
             {
                 HotkeyType.None => LucideIcons.circle_dashed,
 
-                // Upload
-                HotkeyType.FileUpload => LucideIcons.file_up,
-                HotkeyType.FolderUpload => LucideIcons.folder_up,
-                HotkeyType.ClipboardUpload => LucideIcons.clipboard,
-                HotkeyType.ClipboardUploadWithContentViewer => LucideIcons.clipboard_list,
-                HotkeyType.UploadText => LucideIcons.file_text,
-                HotkeyType.UploadURL => LucideIcons.link,
-                HotkeyType.DragDropUpload => LucideIcons.mouse_pointer_2,
-                HotkeyType.ShortenURL => LucideIcons.link_2,
-                HotkeyType.StopUploads => LucideIcons.circle_stop,
-
                 // Screen capture
                 HotkeyType.PrintScreen => LucideIcons.monitor,
                 HotkeyType.ActiveWindow => LucideIcons.app_window,
@@ -2366,25 +2353,6 @@ namespace ShareX
         public static void ToggleTrayMenu()
         {
             MainWindowIntegration.ShowTrayMenu();
-        }
-
-        public static bool IsUploadAllowed()
-        {
-            if (SystemOptions.DisableUpload)
-            {
-                MessageBox.Show(Strings.YourSystemAdminDisabledTheUploadFeature, "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                return false;
-            }
-
-            if (ApplicationState.Settings.DisableUpload)
-            {
-                MessageBox.Show(Strings.ThisFeatureWillNotWorkWhenDisableUploadOptionIsEnabled, "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                return false;
-            }
-
-            return true;
         }
     }
 }

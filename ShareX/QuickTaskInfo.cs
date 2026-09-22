@@ -33,7 +33,6 @@ namespace ShareX
     {
         public string Name { get; set; }
         public AfterCaptureTasks AfterCaptureTasks { get; set; }
-        public AfterUploadTasks AfterUploadTasks { get; set; }
 
         public bool IsValid
         {
@@ -45,12 +44,10 @@ namespace ShareX
 
         public static List<QuickTaskInfo> DefaultPresets => new List<QuickTaskInfo>()
         {
-            new QuickTaskInfo("Save, Upload, Copy URL", AfterCaptureTasks.SaveImageToFile | AfterCaptureTasks.UploadImageToHost, AfterUploadTasks.CopyURLToClipboard),
             new QuickTaskInfo("Save, Copy image", AfterCaptureTasks.SaveImageToFile | AfterCaptureTasks.CopyImageToClipboard),
             new QuickTaskInfo("Save, Copy image file", AfterCaptureTasks.SaveImageToFile | AfterCaptureTasks.CopyFileToClipboard),
-            new QuickTaskInfo("Annotate, Save, Upload, Copy URL", AfterCaptureTasks.AnnotateImage | AfterCaptureTasks.SaveImageToFile | AfterCaptureTasks.UploadImageToHost, AfterUploadTasks.CopyURLToClipboard),
+            new QuickTaskInfo("Annotate, Save, Copy image", AfterCaptureTasks.AnnotateImage | AfterCaptureTasks.SaveImageToFile | AfterCaptureTasks.CopyImageToClipboard),
             new QuickTaskInfo(),
-            new QuickTaskInfo("Upload, Copy URL", AfterCaptureTasks.UploadImageToHost, AfterUploadTasks.CopyURLToClipboard),
             new QuickTaskInfo("Save", AfterCaptureTasks.SaveImageToFile),
             new QuickTaskInfo("Copy image", AfterCaptureTasks.CopyImageToClipboard),
             new QuickTaskInfo("Annotate", AfterCaptureTasks.AnnotateImage)
@@ -60,14 +57,13 @@ namespace ShareX
         {
         }
 
-        public QuickTaskInfo(string name, AfterCaptureTasks afterCaptureTasks, AfterUploadTasks afterUploadTasks = AfterUploadTasks.None)
+        public QuickTaskInfo(string name, AfterCaptureTasks afterCaptureTasks)
         {
             Name = name;
             AfterCaptureTasks = afterCaptureTasks;
-            AfterUploadTasks = afterUploadTasks;
         }
 
-        public QuickTaskInfo(AfterCaptureTasks afterCaptureTasks, AfterUploadTasks afterUploadTasks = AfterUploadTasks.None) : this(null, afterCaptureTasks, afterUploadTasks)
+        public QuickTaskInfo(AfterCaptureTasks afterCaptureTasks) : this(null, afterCaptureTasks)
         {
         }
 
@@ -78,19 +74,7 @@ namespace ShareX
                 return Name;
             }
 
-            string result = string.Join(", ", AfterCaptureTasks.GetFlags().Select(x => x.GetLocalizedDescription()));
-
-            if (AfterCaptureTasks.HasFlag(AfterCaptureTasks.UploadImageToHost))
-            {
-                string[] flags = AfterUploadTasks.GetFlags().Select(x => x.GetLocalizedDescription()).ToArray();
-
-                if (flags != null && flags.Length > 0)
-                {
-                    result += ", " + string.Join(", ", flags);
-                }
-            }
-
-            return result;
+            return string.Join(", ", AfterCaptureTasks.GetFlags().Select(x => x.GetLocalizedDescription()));
         }
     }
 }
