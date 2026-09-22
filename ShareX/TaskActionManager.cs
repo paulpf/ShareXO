@@ -33,11 +33,11 @@ using System.Windows.Forms;
 
 namespace ShareX
 {
-    public class UploadInfoManager
+    public class TaskActionManager
     {
-        public UploadInfoStatus[] SelectedItems { get; private set; }
+        public TaskItemStatus[] SelectedItems { get; private set; }
 
-        public UploadInfoStatus SelectedItem
+        public TaskItemStatus SelectedItem
         {
             get
             {
@@ -58,18 +58,18 @@ namespace ShareX
             }
         }
 
-        private UploadInfoParser parser;
+        private TaskInfoParser parser;
 
-        public UploadInfoManager()
+        public TaskActionManager()
         {
-            parser = new UploadInfoParser();
+            parser = new TaskInfoParser();
         }
 
         public void UpdateSelectedItems(IEnumerable<WorkerTask> tasks)
         {
             if (tasks != null && tasks.Count() > 0)
             {
-                SelectedItems = tasks.Where(x => x != null && x.Info != null).Select(x => new UploadInfoStatus(x)).ToArray();
+                SelectedItems = tasks.Where(x => x != null && x.Info != null).Select(x => new TaskItemStatus(x)).ToArray();
             }
             else
             {

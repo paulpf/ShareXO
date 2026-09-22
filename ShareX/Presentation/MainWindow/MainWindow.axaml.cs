@@ -53,7 +53,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private readonly ITrayIconService _trayIconService;
     private readonly MainMenuBuilder _navigationMenuBuilder;
     private readonly MainMenuBuilder _trayMenuBuilder;
-    private readonly UploadInfoManager _uploadInfoManager = new();
+    private readonly TaskActionManager _taskActionManager = new();
     private ContextMenu? _activeContextMenu;
     private Flyout? _activeGridMenu;
     private Window? _trayMenuAnchor;
@@ -1456,31 +1456,31 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         ThumbnailItemViewModel[] selectedModels = GetSelectedItems().ToArray();
         WorkerTask[] selectedTasks = selectedModels.Select(x => x.Task).ToArray();
-        _uploadInfoManager.UpdateSelectedItems(selectedTasks);
+        _taskActionManager.UpdateSelectedItems(selectedTasks);
 
-        UploadInfoStatus? selected = _uploadInfoManager.SelectedItem;
-        UploadInfoStatus[] statuses = _uploadInfoManager.SelectedItems ?? Array.Empty<UploadInfoStatus>();
+        TaskItemStatus? selected = _taskActionManager.SelectedItem;
+        TaskItemStatus[] statuses = _taskActionManager.SelectedItems ?? Array.Empty<TaskItemStatus>();
         bool hasSelection = selected != null;
         bool isWorking = selectedTasks.Any(x => x.IsWorking);
 
         List<MainMenuEntry> entries = new()
         {
-            Item(Strings.MainWindow_ShowErrors, LucideIcons.triangle_alert, _uploadInfoManager.ShowErrors,
+            Item(Strings.MainWindow_ShowErrors, LucideIcons.triangle_alert, _taskActionManager.ShowErrors,
                 hasSelection && !isWorking && selected!.Info.Result.IsError),
             Submenu(Strings.MainWindow_Open, LucideIcons.external_link, () => BuildOpenTaskMenu(selected, statuses), hasSelection),
             Submenu(Strings.MainWindow_Copy, LucideIcons.copy, () => BuildCopyTaskMenu(selected, statuses), hasSelection && !isWorking),
-            Item(Strings.MainWindow_EditImage, LucideIcons.image, _uploadInfoManager.EditImage,
+            Item(Strings.MainWindow_EditImage, LucideIcons.image, _taskActionManager.EditImage,
                 hasSelection && !isWorking && selected!.IsImageFile,
                 new KeyGesture(Key.E, KeyModifiers.Control)),
-            Item(Strings.MainWindow_ResizeImage, LucideIcons.maximize_2, _uploadInfoManager.ResizeImages,
+            Item(Strings.MainWindow_ResizeImage, LucideIcons.maximize_2, _taskActionManager.ResizeImages,
                 hasSelection && !isWorking && statuses.Any(x => x.IsImageFile)),
-            Item(Strings.MainWindow_TrimVideo, LucideIcons.scissors, _uploadInfoManager.TrimVideo,
+            Item(Strings.MainWindow_TrimVideo, LucideIcons.scissors, _taskActionManager.TrimVideo,
                 hasSelection && !isWorking && selected!.IsVideoFile),
-            Item(Strings.MainWindow_BeautifyImage, LucideIcons.sparkles, _uploadInfoManager.BeautifyImage,
+            Item(Strings.MainWindow_BeautifyImage, LucideIcons.sparkles, _taskActionManager.BeautifyImage,
                 hasSelection && !isWorking && selected!.IsImageFile),
-            Item(Strings.MainWindow_AddImageEffects, LucideIcons.wand_sparkles, _uploadInfoManager.AddImageEffects,
+            Item(Strings.MainWindow_AddImageEffects, LucideIcons.wand_sparkles, _taskActionManager.AddImageEffects,
                 hasSelection && !isWorking && selected!.IsImageFile),
-            Item(Strings.MainWindow_PinToScreen, LucideIcons.pin, _uploadInfoManager.PinToScreen,
+            Item(Strings.MainWindow_PinToScreen, LucideIcons.pin, _taskActionManager.PinToScreen,
                 hasSelection && !isWorking && selected!.IsImageFile,
                 new KeyGesture(Key.P, KeyModifiers.Control)),
             Submenu(Strings.MainWindow_RunAction, LucideIcons.play, () => BuildExternalActionsMenu(selected),
@@ -1490,7 +1490,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             Item(Strings.MainWindow_DeleteSelectedFile, LucideIcons.file_x, DeleteSelectedFiles,
                 hasSelection && !isWorking && selected!.IsFileExist,
                 new KeyGesture(Key.Delete, KeyModifiers.Shift)),
-            Item(Strings.MainWindow_OCRImage, LucideIcons.scan_text, async () => await _uploadInfoManager.OCRImage(),
+            Item(Strings.MainWindow_OCRImage, LucideIcons.scan_text, async () => await _taskActionManager.OCRImage(),
                 hasSelection && !isWorking && selected!.IsImageFile),
             Submenu(Strings.MainWindow_CombineImagesDialog, LucideIcons.combine, BuildCombineImagesMenu,
                 hasSelection && !isWorking && statuses.Count(x => x.IsImageFile) > 1),
@@ -1501,36 +1501,36 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         return BuildContextMenu(entries);
     }
 
-    private IReadOnlyList<MainMenuEntry> BuildOpenTaskMenu(UploadInfoStatus? selected, UploadInfoStatus[] statuses)
+    private IReadOnlyList<MainMenuEntry> BuildOpenTaskMenu(TaskItemStatus? selected, TaskItemStatus[] statuses)
     {
         return new List<MainMenuEntry>
         {
-            Item(Strings.MainWindow_File, LucideIcons.file, _uploadInfoManager.OpenFile, selected?.IsFileExist == true,
+            Item(Strings.MainWindow_File, LucideIcons.file, _taskActionManager.OpenFile, selected?.IsFileExist == true,
                 new KeyGesture(Key.Enter, KeyModifiers.Control)),
-            Item(Strings.MainWindow_Folder, LucideIcons.folder_open, _uploadInfoManager.OpenFolder, selected?.IsFileExist == true,
+            Item(Strings.MainWindow_Folder, LucideIcons.folder_open, _taskActionManager.OpenFolder, selected?.IsFileExist == true,
                 new KeyGesture(Key.Enter, KeyModifiers.Shift)),
-            Item(Strings.MainWindow_ThumbnailFile, LucideIcons.file_image, _uploadInfoManager.OpenThumbnailFile, selected?.IsThumbnailFileExist == true)
+            Item(Strings.MainWindow_ThumbnailFile, LucideIcons.file_image, _taskActionManager.OpenThumbnailFile, selected?.IsThumbnailFileExist == true)
         };
     }
 
-    private IReadOnlyList<MainMenuEntry> BuildCopyTaskMenu(UploadInfoStatus? selected, UploadInfoStatus[] statuses)
+    private IReadOnlyList<MainMenuEntry> BuildCopyTaskMenu(TaskItemStatus? selected, TaskItemStatus[] statuses)
     {
         List<MainMenuEntry> entries = new()
         {
-            Item(Strings.MainWindow_File, LucideIcons.file, _uploadInfoManager.CopyFile, selected?.IsFileExist == true,
+            Item(Strings.MainWindow_File, LucideIcons.file, _taskActionManager.CopyFile, selected?.IsFileExist == true,
                 new KeyGesture(Key.C, KeyModifiers.Shift)),
-            Item(Strings.MainWindow_Image, LucideIcons.image, _uploadInfoManager.CopyImage, selected?.IsImageFile == true,
+            Item(Strings.MainWindow_Image, LucideIcons.image, _taskActionManager.CopyImage, selected?.IsImageFile == true,
                 new KeyGesture(Key.C, KeyModifiers.Alt)),
-            Item(Strings.MainWindow_ImageDimensions, LucideIcons.ruler, _uploadInfoManager.CopyImageDimensions, selected?.IsImageFile == true),
-            Item(Strings.MainWindow_Text, LucideIcons.file_text, _uploadInfoManager.CopyText, selected?.IsTextFile == true),
-            Item(Strings.MainWindow_ThumbnailFile, LucideIcons.file_image, _uploadInfoManager.CopyThumbnailFile, selected?.IsThumbnailFileExist == true),
-            Item(Strings.MainWindow_ThumbnailImage, LucideIcons.images, _uploadInfoManager.CopyThumbnailImage, selected?.IsThumbnailFileExist == true),
+            Item(Strings.MainWindow_ImageDimensions, LucideIcons.ruler, _taskActionManager.CopyImageDimensions, selected?.IsImageFile == true),
+            Item(Strings.MainWindow_Text, LucideIcons.file_text, _taskActionManager.CopyText, selected?.IsTextFile == true),
+            Item(Strings.MainWindow_ThumbnailFile, LucideIcons.file_image, _taskActionManager.CopyThumbnailFile, selected?.IsThumbnailFileExist == true),
+            Item(Strings.MainWindow_ThumbnailImage, LucideIcons.images, _taskActionManager.CopyThumbnailImage, selected?.IsThumbnailFileExist == true),
             MainMenuEntry.Separator(),
-            Item(Strings.MainWindow_FilePath, LucideIcons.route, _uploadInfoManager.CopyFilePath, statuses.Any(x => x.IsFilePathValid),
+            Item(Strings.MainWindow_FilePath, LucideIcons.route, _taskActionManager.CopyFilePath, statuses.Any(x => x.IsFilePathValid),
                 new KeyGesture(Key.C, KeyModifiers.Control | KeyModifiers.Shift)),
-            Item(Strings.MainWindow_FileName, LucideIcons.file, _uploadInfoManager.CopyFileName, statuses.Any(x => x.IsFilePathValid)),
-            Item(Strings.MainWindow_FileNameWithExtension, LucideIcons.files, _uploadInfoManager.CopyFileNameWithExtension, statuses.Any(x => x.IsFilePathValid)),
-            Item(Strings.MainWindow_Folder, LucideIcons.folder, _uploadInfoManager.CopyFolder, statuses.Any(x => x.IsFilePathValid))
+            Item(Strings.MainWindow_FileName, LucideIcons.file, _taskActionManager.CopyFileName, statuses.Any(x => x.IsFilePathValid)),
+            Item(Strings.MainWindow_FileNameWithExtension, LucideIcons.files, _taskActionManager.CopyFileNameWithExtension, statuses.Any(x => x.IsFilePathValid)),
+            Item(Strings.MainWindow_Folder, LucideIcons.folder, _taskActionManager.CopyFolder, statuses.Any(x => x.IsFilePathValid))
         };
 
         if (ApplicationState.Settings.ClipboardContentFormats?.Count > 0)
@@ -1540,7 +1540,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 ClipboardFormat selectedFormat = format;
                 entries.Add(Item(selectedFormat.Description, LucideIcons.clipboard_copy,
-                    () => _uploadInfoManager.CopyCustomFormat(selectedFormat.Format)));
+                    () => _taskActionManager.CopyCustomFormat(selectedFormat.Format)));
             }
         }
 
@@ -1551,7 +1551,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         !string.IsNullOrEmpty(filePath) && File.Exists(filePath) &&
         ApplicationState.DefaultTaskSettings.ExternalPrograms.Any(x => !string.IsNullOrEmpty(x.Name) && x.CheckExtension(filePath));
 
-    private static IReadOnlyList<MainMenuEntry> BuildExternalActionsMenu(UploadInfoStatus? selected)
+    private static IReadOnlyList<MainMenuEntry> BuildExternalActionsMenu(TaskItemStatus? selected)
     {
         string filePath = selected?.Info.FilePath ?? string.Empty;
         return ApplicationState.DefaultTaskSettings.ExternalPrograms
@@ -1562,8 +1562,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private IReadOnlyList<MainMenuEntry> BuildCombineImagesMenu() => new List<MainMenuEntry>
     {
-            Item(Strings.MainWindow_Horizontally, LucideIcons.rows_2, () => _uploadInfoManager.CombineImages(FormsOrientation.Horizontal)),
-            Item(Strings.MainWindow_Vertically, LucideIcons.columns_2, () => _uploadInfoManager.CombineImages(FormsOrientation.Vertical))
+            Item(Strings.MainWindow_Horizontally, LucideIcons.rows_2, () => _taskActionManager.CombineImages(FormsOrientation.Horizontal)),
+            Item(Strings.MainWindow_Vertically, LucideIcons.columns_2, () => _taskActionManager.CombineImages(FormsOrientation.Vertical))
     };
 
     private void RemoveSelectedTasks()
@@ -1580,7 +1580,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             "ShareX - " + Strings.MainForm_tsmiDeleteSelectedFile_Click_File_delete_confirmation,
             MessageBoxButtons.YesNo) == MessageBoxResult.Yes)
         {
-            _uploadInfoManager.DeleteFiles();
+            _taskActionManager.DeleteFiles();
             RemoveSelectedTasks();
         }
     }
@@ -1640,20 +1640,20 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void OnWindowKeyDown(object? sender, KeyEventArgs e)
     {
-        _uploadInfoManager.UpdateSelectedItems(GetSelectedItems().Select(x => x.Task));
+        _taskActionManager.UpdateSelectedItems(GetSelectedItems().Select(x => x.Task));
         bool control = e.KeyModifiers.HasFlag(KeyModifiers.Control);
         bool shift = e.KeyModifiers.HasFlag(KeyModifiers.Shift);
         bool alt = e.KeyModifiers.HasFlag(KeyModifiers.Alt);
 
-        if (e.Key == Key.Enter && control) _uploadInfoManager.OpenFile();
-        else if (e.Key == Key.Enter && shift) _uploadInfoManager.OpenFolder();
-        else if (e.Key == Key.Enter) _uploadInfoManager.TryOpen();
-        else if (e.Key == Key.C && control && shift) _uploadInfoManager.CopyFilePath();
-        else if (e.Key == Key.C && shift) _uploadInfoManager.CopyFile();
-        else if (e.Key == Key.C && alt) _uploadInfoManager.CopyImage();
-        else if (e.Key == Key.C && control) _uploadInfoManager.TryCopy();
-        else if (e.Key == Key.E && control) _uploadInfoManager.EditImage();
-        else if (e.Key == Key.P && control) _uploadInfoManager.PinToScreen();
+        if (e.Key == Key.Enter && control) _taskActionManager.OpenFile();
+        else if (e.Key == Key.Enter && shift) _taskActionManager.OpenFolder();
+        else if (e.Key == Key.Enter) _taskActionManager.TryOpen();
+        else if (e.Key == Key.C && control && shift) _taskActionManager.CopyFilePath();
+        else if (e.Key == Key.C && shift) _taskActionManager.CopyFile();
+        else if (e.Key == Key.C && alt) _taskActionManager.CopyImage();
+        else if (e.Key == Key.C && control) _taskActionManager.TryCopy();
+        else if (e.Key == Key.E && control) _taskActionManager.EditImage();
+        else if (e.Key == Key.P && control) _taskActionManager.PinToScreen();
         else if (e.Key == Key.Delete && shift) DeleteSelectedFiles();
         else if (e.Key == Key.Delete) RemoveSelectedTasks();
         else return;
@@ -1672,12 +1672,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             ClearThumbnailCombineTarget();
         }
 
-        DropOverlay.IsVisible = false;
         e.Handled = true;
     }
 
     private void OnDragOver(object? sender, DragEventArgs e) => UpdateDropOverlay(e);
 
+    // Dropping from outside the window no longer does anything; the only drag
+    // gesture left is dragging one thumbnail onto another to combine them.
     private void UpdateDropOverlay(DragEventArgs e)
     {
         if (_thumbnailDragSource != null)
@@ -1685,28 +1686,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             ThumbnailItemViewModel? target = GetThumbnailItem(e.Source);
             bool canCombine = CanCombineThumbnails(_thumbnailDragSource, target);
             SetThumbnailCombineTarget(canCombine ? target : null);
-            DropOverlay.IsVisible = false;
             e.DragEffects = canCombine ? DragDropEffects.Copy : DragDropEffects.None;
-            e.Handled = true;
-            return;
         }
-
-        bool hasFiles = e.DataTransfer.TryGetFiles()?.Any() == true;
-        bool hasText = !string.IsNullOrEmpty(e.DataTransfer.TryGetText());
-        bool supported = hasFiles || hasText;
-
-        e.DragEffects = supported ? DragDropEffects.Copy : DragDropEffects.None;
-        DropOverlay.IsVisible = supported;
-
-        if (hasFiles)
+        else
         {
-            DropOverlayTitle.Text = Strings.MainWindow_ReleaseToUploadFiles;
-            DropOverlayDescription.Text = Strings.MainWindow_FilesDroppedUploadDescription;
-        }
-        else if (hasText)
-        {
-            DropOverlayTitle.Text = Strings.MainWindow_ReleaseToUploadText;
-            DropOverlayDescription.Text = Strings.MainWindow_TextDroppedUploadDescription;
+            e.DragEffects = DragDropEffects.None;
         }
 
         e.Handled = true;
@@ -1714,16 +1698,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void OnDrop(object? sender, DragEventArgs e)
     {
-        DropOverlay.IsVisible = false;
-
         if (_thumbnailDragSource != null)
         {
             ClearThumbnailCombineTarget();
-            e.DragEffects = DragDropEffects.None;
-            e.Handled = true;
-            return;
         }
 
+        e.DragEffects = DragDropEffects.None;
         e.Handled = true;
     }
 

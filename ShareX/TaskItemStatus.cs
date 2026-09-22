@@ -28,7 +28,7 @@ using System.IO;
 
 namespace ShareX
 {
-    public class UploadInfoStatus
+    public class TaskItemStatus
     {
         public WorkerTask Task { get; private set; }
 
@@ -42,7 +42,7 @@ namespace ShareX
         public bool IsVideoFile { get; private set; }
         public bool IsTextFile { get; private set; }
 
-        public UploadInfoStatus(WorkerTask task)
+        public TaskItemStatus(WorkerTask task)
         {
             Task = task;
             Update();

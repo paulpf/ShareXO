@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,11 +14,6 @@
         ShowInTaskbar="False"
         SizeToContent="WidthAndHeight"
         Background="{DynamicResource ShareX.Brush.Background.Toolbar}"
-        DragDrop.AllowDrop="True"
-        DragDrop.DragEnter="OnDragEnter"
-        DragDrop.DragOver="OnDragOver"
-        DragDrop.DragLeave="OnDragLeave"
-        DragDrop.Drop="OnDrop"
         WindowStartupLocation="Manual">
 
     <Window.Styles>
@@ -80,23 +75,6 @@
                     </Border>
                 </StackPanel>
 
-                <Border x:Name="DropOverlay"
-                        IsVisible="False"
-                        Background="{DynamicResource ShareX.Brush.Overlay.Modal}"
-                        CornerRadius="4">
-                    <StackPanel Orientation="Horizontal"
-                                Spacing="7"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <TextBlock Classes="icon"
-                                   Text="{x:Static theming:LucideIcons.upload}"
-                                   Foreground="{DynamicResource ShareX.Brush.Accent}"
-                                   FontSize="16"/>
-                        <TextBlock Text="{x:Static res:Strings.ActionsToolbarWindow_DropToUpload}"
-                                   FontWeight="Normal"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Border>
             </Grid>
         </Border>
     </ThemeVariantScope>

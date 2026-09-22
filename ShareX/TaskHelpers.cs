@@ -318,7 +318,7 @@ namespace ShareX
                     }
                     break;
                 case HotkeyType.IndexFolder:
-                    UploadManager.IndexFolder();
+                    TaskLauncher.IndexFolder();
                     break;
                 case HotkeyType.ClipboardViewer:
                     OpenClipboardViewer();
@@ -750,7 +750,7 @@ namespace ShareX
             if (taskSettings == null) taskSettings = TaskSettings.GetDefaultTaskSettings();
 
             await ScrollingCaptureWindowIntegration.StartStopAsync(taskSettings.CaptureSettingsReference.ScrollingCaptureOptions,
-                img => UploadManager.RunImageTask(img, taskSettings),
+                img => TaskLauncher.RunImageTask(img, taskSettings),
                 () => PlayNotificationSoundAsync(NotificationSound.ActionCompleted, taskSettings));
         }
 
@@ -816,9 +816,7 @@ namespace ShareX
         public static void OpenDebugLog()
         {
             DebugLogWindowIntegration.Show(
-                DebugHelper.Logger,
-                null,
-                Strings.MainForm_UploadDebugLogWarning);
+                DebugHelper.Logger);
         }
 
         public static void ShowColorPickerDialog(TaskSettings taskSettings = null)
@@ -965,7 +963,7 @@ namespace ShareX
             Bitmap output = await Task.Run(() => CombineImages(request));
             if (output != null)
             {
-                UploadManager.RunImageTask(output, taskSettings);
+                TaskLauncher.RunImageTask(output, taskSettings);
             }
         }
 
@@ -1008,7 +1006,7 @@ namespace ShareX
 
             if (output != null)
             {
-                UploadManager.RunImageTask(output, taskSettings);
+                TaskLauncher.RunImageTask(output, taskSettings);
             }
         }
 
@@ -1242,7 +1240,7 @@ namespace ShareX
             {
                 if (bmp != null)
                 {
-                    UploadManager.RunImageTask(bmp, taskSettings);
+                    TaskLauncher.RunImageTask(bmp, taskSettings);
                 }
             };
 
@@ -1465,7 +1463,7 @@ namespace ShareX
                 {
                     if (bmpResult != null)
                     {
-                        UploadManager.RunImageTask(bmpResult, taskSettings);
+                        TaskLauncher.RunImageTask(bmpResult, taskSettings);
                     }
                 };
 
@@ -1549,7 +1547,7 @@ namespace ShareX
                     return image != null ? new ImageEffectsSource(image) : null;
                 },
                 SaveImage = (image, path) => ImageHelpers.SaveImageFileDialog(image, path),
-                UploadImage = image => UploadManager.RunImageTask(image, taskSettings),
+                UploadImage = image => TaskLauncher.RunImageTask(image, taskSettings),
                 OpenImageEffectsPage = () => URLHelpers.OpenURL(Links.ImageEffects)
             };
         }

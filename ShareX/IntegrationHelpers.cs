@@ -39,15 +39,6 @@ namespace ShareX
         private static readonly string ApplicationPath = $"\"{Application.ExecutablePath}\"";
         private static readonly string FileIconPath = $"\"{FileHelpers.GetAbsolutePath("ShareX_File_Icon.ico")}\"";
 
-        private static readonly string ShellExtMenuName = "ShareX";
-        private static readonly string ShellExtMenuFiles = $@"Software\Classes\*\shell\{ShellExtMenuName}";
-        private static readonly string ShellExtMenuFilesCmd = $@"{ShellExtMenuFiles}\command";
-        private static readonly string ShellExtMenuDirectory = $@"Software\Classes\Directory\shell\{ShellExtMenuName}";
-        private static readonly string ShellExtMenuDirectoryCmd = $@"{ShellExtMenuDirectory}\command";
-        private static readonly string ShellExtDesc = Strings.IntegrationHelpers_UploadWithShareX;
-        private static readonly string ShellExtIcon = $"{ApplicationPath},0";
-        private static readonly string ShellExtPath = $"{ApplicationPath} \"%1\"";
-
         private static readonly string ShellExtEditName = "ShareXImageEditor";
         private static readonly string ShellExtEditImage = $@"Software\Classes\SystemFileAssociations\image\shell\{ShellExtEditName}";
         private static readonly string ShellExtEditImageCmd = $@"{ShellExtEditImage}\command";
@@ -63,58 +54,6 @@ namespace ShareX
         private static readonly string ShellImageEffectIconValue = $"{FileIconPath}";
         private static readonly string ShellImageEffectCommandPath = $@"{ShellImageEffectAssociatePath}\shell\open\command";
         private static readonly string ShellImageEffectCommandValue = $"{ApplicationPath} -ImageEffect \"%1\"";
-
-        public static bool CheckShellContextMenuButton()
-        {
-            try
-            {
-                return RegistryHelpers.CheckStringValue(ShellExtMenuFilesCmd, null, ShellExtPath) &&
-                    RegistryHelpers.CheckStringValue(ShellExtMenuDirectoryCmd, null, ShellExtPath);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-
-            return false;
-        }
-
-        public static void CreateShellContextMenuButton(bool create)
-        {
-            try
-            {
-                if (create)
-                {
-                    UnregisterShellContextMenuButton();
-                    RegisterShellContextMenuButton();
-                }
-                else
-                {
-                    UnregisterShellContextMenuButton();
-                }
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-        }
-
-        private static void RegisterShellContextMenuButton()
-        {
-            RegistryHelpers.CreateRegistry(ShellExtMenuFiles, ShellExtDesc);
-            RegistryHelpers.CreateRegistry(ShellExtMenuFiles, "Icon", ShellExtIcon);
-            RegistryHelpers.CreateRegistry(ShellExtMenuFilesCmd, ShellExtPath);
-
-            RegistryHelpers.CreateRegistry(ShellExtMenuDirectory, ShellExtDesc);
-            RegistryHelpers.CreateRegistry(ShellExtMenuDirectory, "Icon", ShellExtIcon);
-            RegistryHelpers.CreateRegistry(ShellExtMenuDirectoryCmd, ShellExtPath);
-        }
-
-        private static void UnregisterShellContextMenuButton()
-        {
-            RegistryHelpers.RemoveRegistry(ShellExtMenuFiles);
-            RegistryHelpers.RemoveRegistry(ShellExtMenuDirectory);
-        }
 
         public static bool CheckEditShellContextMenuButton()
         {
@@ -257,7 +196,6 @@ namespace ShareX
         public static void Uninstall()
         {
             StartupManager.State = StartupState.Disabled;
-            CreateShellContextMenuButton(false);
             CreateEditShellContextMenuButton(false);
             CreateImageEffectExtension(false);
             CreateSendToMenuButton(false);

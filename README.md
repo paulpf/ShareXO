@@ -13,17 +13,19 @@
 <p align="center"><a href="https://getsharex.com"><img src="https://getsharex.com/img/ShareX_Screenshot.png" alt="ShareX Screenshot"/></a></p>
 <p align="center">For further information please check our <a href="https://getsharex.com">website</a></p>
 
-# ShareX - Free Screen Capture, Screenshot, File Sharing and Productivity Tool
+# ShareX - Free Screen Capture, Screenshot and Productivity Tool
 
-ShareX is a free and open source screenshot tool, screen recorder, file sharing tool and productivity application for Windows. It is designed for users who need fast screen capture, powerful screenshot editing, automated sharing, custom upload destinations and practical utilities in one lightweight desktop app.
+ShareX is a free and open source screenshot tool, screen recorder and productivity application for Windows. It is designed for users who need fast screen capture, powerful screenshot editing and practical utilities in one lightweight desktop app.
 
-With ShareX, you can capture any area of your screen, record video or GIFs, annotate screenshots, upload files, copy shareable links, extract text with OCR, scan QR codes, pick colors and run custom workflows from hotkeys. ShareX is built for speed and control: capture a screenshot, edit it, save it, copy it, upload it or pass it through your own task chain with minimal manual work.
+**This build has no upload functionality.** Every uploader, sharing service and URL shortener has been removed from the source, along with the browser extension host and the AI image analysis. Apart from the manual update check in the About window, the application makes no outbound network connection.
+
+With ShareX, you can capture any area of your screen, record video or GIFs, annotate screenshots, extract text with OCR, scan QR codes, pick colors and run custom workflows from hotkeys. ShareX is built for speed and control: capture a screenshot, edit it, save it, copy it or pass it through your own task chain with minimal manual work.
 
 ## Why ShareX?
 
-ShareX combines screen capture, screen recording, image editing, file uploading and automation features that are often split across multiple applications. It is completely free, open source, lightweight, privacy focused and has no advertisements. No account is required to use ShareX.
+ShareX combines screen capture, screen recording, image editing and automation features that are often split across multiple applications. It is completely free, open source, lightweight, privacy focused and has no advertisements. No account is required to use ShareX.
 
-ShareX is especially useful for developers, designers, support teams, content creators, technical writers, QA testers and power users who frequently create screenshots, record short clips, share files or document workflows. It can be used as a simple screenshot app, but it also supports advanced workflows for users who want precise control over capture methods, after-capture tasks, upload destinations and hotkeys.
+ShareX is especially useful for developers, designers, support teams, content creators, technical writers, QA testers and power users who frequently create screenshots, record short clips or document workflows. It can be used as a simple screenshot app, but it also supports advanced workflows for users who want precise control over capture methods, after-capture tasks and hotkeys.
 
 ## Screenshot and Screen Recording Features
 
@@ -40,11 +42,11 @@ ShareX supports many ways to capture your screen:
 * GIF screen recording
 * Auto capture
 
-After capturing a screenshot or recording, ShareX can automatically copy the result to the clipboard, save it to a file, open it in the image editor, upload it, print it, show it in Windows Explorer, run an action, scan a QR code or recognize text with OCR. These after-capture tasks make ShareX a flexible screenshot workflow tool instead of only a basic snipping utility.
+After capturing a screenshot or recording, ShareX can automatically copy the result to the clipboard, save it to a file, open it in the image editor, print it, show it in Windows Explorer, run an action, scan a QR code or recognize text with OCR. These after-capture tasks make ShareX a flexible screenshot workflow tool instead of only a basic snipping utility.
 
 ## Region Capture and Annotation
 
-ShareX region capture includes tools for selecting exactly what you want to capture and marking it before saving, copying or uploading. You can draw rectangles, ellipses, freehand lines, arrows, text, speech balloons, step numbers, highlights, blur effects, pixelation, magnification and spotlight effects.
+ShareX region capture includes tools for selecting exactly what you want to capture and marking it before saving or copying. You can draw rectangles, ellipses, freehand lines, arrows, text, speech balloons, step numbers, highlights, blur effects, pixelation, magnification and spotlight effects.
 
 These annotation tools help create clear screenshots for bug reports, documentation, tutorials, support replies, pull requests and release notes. Sensitive information can be hidden with blur, pixelate or smart eraser tools before a screenshot is shared.
 
@@ -52,13 +54,7 @@ These annotation tools help create clear screenshots for bug reports, documentat
 
 The ShareX image editor lets you crop, annotate, redact, highlight and prepare screenshots after capture. It includes common editing tools such as shapes, arrows, text, freehand drawing, image insertion, cursor insertion, blur, pixelate, magnify, spotlight, crop, cut out, background editing and image effects.
 
-Because the editor is part of the capture workflow, you can take a screenshot, mark the important area, hide private details and then copy, save or upload the edited image without switching between separate apps.
-
-## File Sharing and Upload Automation
-
-ShareX can upload images, text, files, folders, clipboard content and URLs to many different destinations. After uploading, it can automatically copy the URL to the clipboard, open the URL, shorten the URL, show a QR code or run other configured tasks.
-
-Advanced users can create custom uploaders for services that are not built in. ShareX also provides guides for destinations such as Amazon S3, Google Cloud Storage and Cloudflare R2, making it suitable for both personal screenshot sharing and team workflows where files need to be uploaded to controlled storage.
+Because the editor is part of the capture workflow, you can take a screenshot, mark the important area, hide private details and then copy or save the edited image without switching between separate apps.
 
 ## Productivity Tools
 
@@ -94,9 +90,9 @@ These tools make ShareX useful beyond screenshots. It can help inspect images, p
 
 ## Custom Workflows and Hotkeys
 
-ShareX is built around configurable workflows. You can assign hotkeys to capture methods, choose what happens after capture, decide what happens after upload and create actions that run external tools or scripts. This makes it possible to build a workflow such as capture region, annotate image, save locally, upload to a destination, shorten the URL and copy the final link to the clipboard.
+ShareX is built around configurable workflows. You can assign hotkeys to capture methods, choose what happens after capture and create actions that run external tools or scripts. This makes it possible to build a workflow such as capture region, annotate image, save locally and copy the image to the clipboard.
 
-The workflow system is one of the main reasons ShareX is popular with power users. Simple tasks can stay simple, while advanced users can automate detailed screenshot, screen recording and file sharing processes.
+The workflow system is one of the main reasons ShareX is popular with power users. Simple tasks can stay simple, while advanced users can automate detailed screenshot and screen recording processes.
 
 ## Download ShareX
 
@@ -132,8 +128,4 @@ For the safest download options, use the official links below.
 * Command line arguments: https://getsharex.com/docs/command-line-arguments
 * Translation: https://getsharex.com/docs/translation
 * OCR: https://getsharex.com/docs/ocr
-* Custom uploader: https://getsharex.com/docs/custom-uploader
-* Amazon S3 guide: https://getsharex.com/docs/amazon-s3
-* Google Cloud Storage guide: https://getsharex.com/docs/google-cloud-storage
-* Cloudflare R2 guide: https://getsharex.com/docs/cloudflare-r2
 * Brand assets: https://getsharex.com/brand-assets

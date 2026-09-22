@@ -28,7 +28,7 @@ using System.IO;
 
 namespace ShareX
 {
-    public class UploadInfoParser : NameParser
+    public class TaskInfoParser : NameParser
     {
         public string Parse(TaskInfo info, string pattern)
         {

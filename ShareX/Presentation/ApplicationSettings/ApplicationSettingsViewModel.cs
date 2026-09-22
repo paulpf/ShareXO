@@ -48,7 +48,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     private bool _startWithWindows;
     private bool _startWithWindowsEnabled;
     private string _startWithWindowsText = string.Empty;
-    private bool _shellContextMenu;
     private bool _editWithShareX;
     private bool _sendToMenu;
     private bool _steamShowInApp;
@@ -331,18 +330,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
     public bool StartWithWindowsEnabled { get => _startWithWindowsEnabled; private set => SetField(ref _startWithWindowsEnabled, value); }
     public string StartWithWindowsText { get => _startWithWindowsText; private set => SetField(ref _startWithWindowsText, value); }
-
-    public bool ShellContextMenu
-    {
-        get => _shellContextMenu;
-        set
-        {
-            if (SetField(ref _shellContextMenu, value))
-            {
-                InvokeOnMainThread(() => IntegrationHelpers.CreateShellContextMenuButton(value));
-            }
-        }
-    }
 
     public bool EditWithShareX
     {
@@ -828,7 +815,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     private void RefreshIntegrations()
     {
 #if !MicrosoftStore
-        _shellContextMenu = IntegrationHelpers.CheckShellContextMenuButton();
         _editWithShareX = IntegrationHelpers.CheckEditShellContextMenuButton();
         _sendToMenu = IntegrationHelpers.CheckSendToMenuButton();
 #endif

@@ -368,7 +368,7 @@
     <value>Custom uploaders configuration path</value>
   </data>
   <data name="ApplicationSettingsWindow_CustomizeTheTextCopiedFromCompletedUploads" xml:space="preserve">
-    <value>Customize the text copied from completed uploads.</value>
+    <value>Customize the text copied from completed tasks.</value>
   </data>
   <data name="ApplicationSettingsWindow_Dark" xml:space="preserve">
     <value>Dark</value>
@@ -722,7 +722,7 @@
     <value>Upload</value>
   </data>
   <data name="ApplicationSettingsWindow_UploadResult" xml:space="preserve">
-    <value>Upload result</value>
+    <value>Task result</value>
   </data>
   <data name="ApplicationSettingsWindow_UseAlternativeClipboardCopyImage" xml:space="preserve">
     <value>Use alternative image copying</value>
@@ -2457,7 +2457,7 @@ Do you want to abort the active screen recording?</value>
     <value>Override tools settings</value>
   </data>
   <data name="TaskSettingsWindow_OverrideUploadSettings" xml:space="preserve">
-    <value>Override upload settings</value>
+    <value>Override file naming settings</value>
   </data>
   <data name="TaskSettingsWindow_PNGBitDepth" xml:space="preserve">
     <value>PNG bit depth:</value>
@@ -2694,10 +2694,10 @@ Do you want to abort the active screen recording?</value>
     <value>Update</value>
   </data>
   <data name="TaskSettingsWindow_Upload" xml:space="preserve">
-    <value>Upload</value>
+    <value>File naming</value>
   </data>
   <data name="TaskSettingsWindow_UploadFilesWhenTheyAreCreatedInThisFolder" xml:space="preserve">
-    <value>Upload files when they are created in this folder.</value>
+    <value>Process files when they are created in this folder.</value>
   </data>
   <data name="TaskSettingsWindow_UploadText" xml:space="preserve">
     <value>Upload text</value>

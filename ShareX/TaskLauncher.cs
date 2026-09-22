@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 
 namespace ShareX
 {
-    public static class UploadManager
+    public static class TaskLauncher
     {
         public static void RunImageTask(Bitmap bmp, TaskSettings taskSettings, bool skipQuickTaskMenu = false, bool skipAfterCaptureWindow = false)
         {
