@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -75,8 +75,6 @@ public partial class ApplicationSettingsWindow : Window
     private void OnRestartClick(object? sender, RoutedEventArgs e) => ViewModel.Restart();
     private void OnEditQuickTaskMenuClick(object? sender, RoutedEventArgs e) => ViewModel.EditQuickTaskMenu();
     private async void OnCheckDevBuildClick(object? sender, RoutedEventArgs e) => await ViewModel.CheckDevBuildAsync();
-    private void OnOpenChromeExtensionClick(object? sender, RoutedEventArgs e) => ViewModel.OpenChromeExtensionPage();
-    private void OnOpenFirefoxAddonClick(object? sender, RoutedEventArgs e) => ViewModel.OpenFirefoxAddonPage();
     private void OnOpenPersonalFolderClick(object? sender, RoutedEventArgs e) => ViewModel.OpenPersonalFolder();
     private void OnOpenScreenshotsFolderClick(object? sender, RoutedEventArgs e) => ViewModel.OpenScreenshotsFolder();
     private void OnResetThumbnailSizeClick(object? sender, RoutedEventArgs e) => ViewModel.ResetThumbnailSize();

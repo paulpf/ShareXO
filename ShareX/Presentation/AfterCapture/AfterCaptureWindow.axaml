@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="using:ShareX"
         xmlns:res="using:ShareX.Localization"
@@ -120,35 +120,11 @@
                     <Grid RowDefinitions="Auto,*" RowSpacing="6">
                         <Border Background="{DynamicResource ShareX.Brush.Background.Toolbar}"
                                 CornerRadius="6"
-                                Padding="4">
-                            <ListBox x:Name="SectionNavigation"
-                                     Classes="section-navigation"
-                                     SelectedIndex="0"
-                                     SelectionChanged="OnSectionSelectionChanged">
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                                <ListBoxItem>
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <TextBlock Classes="icon" Text="{x:Static theming:LucideIcons.image}" FontSize="15"/>
-                                        <TextBlock Text="{x:Static res:Strings.AfterCaptureWindow_Heading}"/>
-                                    </StackPanel>
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <TextBlock Classes="icon" Text="{x:Static theming:LucideIcons.upload}" FontSize="15"/>
-                                        <TextBlock Text="{x:Static res:Strings.AfterCaptureWindow_Destinations}"/>
-                                    </StackPanel>
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <TextBlock Classes="icon" Text="{x:Static theming:LucideIcons.clipboard_list}" FontSize="15"/>
-                                        <TextBlock Text="{x:Static res:Strings.AfterCaptureWindow_AfterUpload}"/>
-                                    </StackPanel>
-                                </ListBoxItem>
-                            </ListBox>
+                                Padding="8,6">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock Classes="icon" Text="{x:Static theming:LucideIcons.image}" FontSize="15"/>
+                                <TextBlock Text="{x:Static res:Strings.AfterCaptureWindow_Heading}"/>
+                            </StackPanel>
                         </Border>
 
                         <Grid Grid.Row="1">
@@ -167,38 +143,6 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                            <ListBox x:Name="DestinationOptionsPanel"
-                                     Classes="option-list"
-                                     IsVisible="False"
-                                     ItemsSource="{Binding DestinationOptions}"
-                                     Padding="4,2,4,8"
-                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate DataType="local:AfterCaptureDestinationOption">
-                                        <RadioButton Classes="destination-option"
-                                                     GroupName="CaptureDestination"
-                                                     Content="{Binding Label}"
-                                                     IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-
-                            <ListBox x:Name="AfterUploadOptionsPanel"
-                                     Classes="option-list"
-                                     IsVisible="False"
-                                     ItemsSource="{Binding AfterUploadOptions}"
-                                     Padding="4,2,4,8"
-                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate DataType="local:AfterCaptureTaskOption">
-                                        <CheckBox Classes="task-option"
-                                                  Content="{Binding Label}"
-                                                  IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
                         </Grid>
                     </Grid>
                 </Border>

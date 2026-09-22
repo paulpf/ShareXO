@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -1990,17 +1990,6 @@ namespace ShareX.ImageEditor.Presentation.Views
                 {
                     vm.RequestLoadFromClipboard();
                 },
-                onShowUrlInput: () =>
-                {
-                    if (dialog != null)
-                    {
-                        _ = PrepareStartScreenUrlInputAsync(dialog);
-                    }
-                },
-                onSubmitUrl: url =>
-                {
-                    vm.RequestLoadFromUrl(url);
-                },
                 onClose: () =>
                 {
                     vm.CloseModalCommand.Execute(null);
@@ -2019,35 +2008,6 @@ namespace ShareX.ImageEditor.Presentation.Views
             vm.IsModalOpen = true;
 
             return dialog;
-        }
-
-        private async Task PrepareStartScreenUrlInputAsync(StartScreenDialogViewModel dialog)
-        {
-            string? clipboardUrl = null;
-
-            try
-            {
-                var topLevel = TopLevel.GetTopLevel(this);
-                if (topLevel?.Clipboard != null)
-                {
-                    var text = await topLevel.Clipboard.TryGetTextAsync();
-                    if (!string.IsNullOrWhiteSpace(text))
-                    {
-                        text = text.Trim();
-                        if (Uri.TryCreate(text, UriKind.Absolute, out var uri) &&
-                            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
-                        {
-                            clipboardUrl = text;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                // Ignore clipboard read errors while preparing the inline URL entry.
-            }
-
-            dialog.ShowUrlInput(clipboardUrl);
         }
 
         private void ShowStartScreenStatus(MainViewModel vm, string message)
@@ -2125,46 +2085,6 @@ namespace ShareX.ImageEditor.Presentation.Views
             {
                 EditorServices.ReportError(nameof(EditorView), "Failed to load image from clipboard.", ex);
                 ShowStartScreenStatus(vm, Strings.EditorView_FailedToLoadImageFromClipboard);
-            }
-        }
-
-        private async void OnLoadFromUrlRequested(object? sender, string url)
-        {
-            if (DataContext is not MainViewModel vm) return;
-
-            StartScreenDialogViewModel? startScreenDialog = vm.ModalContent as StartScreenDialogViewModel;
-            startScreenDialog?.ClearStatus();
-            startScreenDialog?.SetUrlLoading(true);
-
-            try
-            {
-                using var httpClient = new HttpClient();
-                httpClient.Timeout = TimeSpan.FromSeconds(30);
-                httpClient.DefaultRequestHeaders.Add("User-Agent", "ShareX");
-
-                var response = await httpClient.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-
-                using var stream = await response.Content.ReadAsStreamAsync();
-                using var memStream = new MemoryStream();
-                await stream.CopyToAsync(memStream);
-                memStream.Position = 0;
-
-                var skBitmap = SKBitmap.Decode(memStream);
-                if (skBitmap == null)
-                {
-                    startScreenDialog?.SetUrlLoading(false);
-                    startScreenDialog?.ShowStatus(Strings.EditorView_UrlDoesNotPointToValidImage);
-                    return;
-                }
-
-                vm.CloseModalCommand.Execute(null);
-                LoadBitmapIntoEditor(vm, skBitmap, null);
-            }
-            catch (Exception ex)
-            {
-                startScreenDialog?.SetUrlLoading(false);
-                startScreenDialog?.ShowStatus(string.Format(Strings.EditorView_FailedToDownloadImageFormat, ex.Message));
             }
         }
 

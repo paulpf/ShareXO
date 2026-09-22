@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -125,7 +125,6 @@ namespace ShareX.ImageEditor.Presentation.ViewModels
         public event EventHandler? OpenImageRequested;
         public event EventHandler? StartScreenRequested;
         public event EventHandler? LoadFromClipboardRequested;
-        public event EventHandler<string>? LoadFromUrlRequested;
         public event EventHandler<string>? LoadRecentFileRequested;
 
         [ObservableProperty]
@@ -1340,11 +1339,6 @@ namespace ShareX.ImageEditor.Presentation.ViewModels
         public void RequestLoadFromClipboard()
         {
             LoadFromClipboardRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void RequestLoadFromUrl(string url)
-        {
-            LoadFromUrlRequested?.Invoke(this, url);
         }
 
         public void RequestLoadRecentFile(string filePath)

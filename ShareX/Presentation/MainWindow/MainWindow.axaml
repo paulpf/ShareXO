@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:chrome="using:Avalonia.Controls.Chrome"
         xmlns:theming="using:ShareX.AvaloniaUI.Theming"
@@ -287,9 +287,7 @@
                                                     <TextBlock Classes="icon" Text="{x:Static theming:LucideIcons.triangle_alert}" Foreground="White"/>
                                                 </Border>
                                                 <ProgressBar IsVisible="{Binding IsProgressVisible}"
-                                                             Value="{Binding Progress}"
-                                                             Minimum="0"
-                                                             Maximum="100"
+                                                             IsIndeterminate="True"
                                                              Height="5"
                                                              VerticalAlignment="Bottom"/>
                                                 <Border IsVisible="{Binding IsCombineTarget}"
@@ -440,41 +438,6 @@
                 </Grid>
         </Grid>
 
-        <Border x:Name="DropOverlay"
-                Grid.ColumnSpan="2"
-                IsVisible="False"
-                IsHitTestVisible="False"
-                Background="{DynamicResource ShareX.Brush.Overlay.Modal}">
-            <Border Width="440"
-                    Padding="32"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Background="{DynamicResource ShareX.Brush.Background.Panel}"
-                    BorderBrush="{DynamicResource ShareX.Brush.Accent.Start}"
-                    BorderThickness="2"
-                    CornerRadius="12">
-                <StackPanel Spacing="12" HorizontalAlignment="Center">
-                    <TextBlock Classes="icon"
-                               Text="{x:Static theming:LucideIcons.upload}"
-                               FontSize="48"
-                               Foreground="{DynamicResource ShareX.Brush.Accent.Start}"
-                               HorizontalAlignment="Center"/>
-                    <TextBlock x:Name="DropOverlayTitle"
-                               Text="{x:Static res:Strings.MainWindow_ReleaseToUploadFiles}"
-                               FontSize="22"
-                               Foreground="{DynamicResource ShareX.Brush.Text}"
-                               TextAlignment="Center"
-                               HorizontalAlignment="Center"/>
-                    <TextBlock x:Name="DropOverlayDescription"
-                               Text="{x:Static res:Strings.MainWindow_FilesDroppedUploadDescription}"
-                               FontWeight="Normal"
-                               Foreground="{DynamicResource ShareX.Brush.Text.Secondary}"
-                               TextAlignment="Center"
-                               TextWrapping="Wrap"
-                               HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Border>
-        </Border>
             </Grid>
         </Grid>
     </Border>

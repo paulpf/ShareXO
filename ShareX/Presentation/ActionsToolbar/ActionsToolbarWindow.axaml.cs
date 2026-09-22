@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program developed by ShareX Team
@@ -304,52 +304,6 @@ public partial class ActionsToolbarWindow : Window
         }
 
         ApplicationState.Settings.ActionsToolbarPosition = new DrawingPoint(adjusted.X, adjusted.Y);
-    }
-
-    private void OnDragEnter(object? sender, DragEventArgs e) => UpdateDragState(e);
-
-    private void OnDragOver(object? sender, DragEventArgs e) => UpdateDragState(e);
-
-    private void UpdateDragState(DragEventArgs e)
-    {
-        bool supported = e.DataTransfer.TryGetFiles()?.Any() == true ||
-            !string.IsNullOrEmpty(e.DataTransfer.TryGetText());
-        e.DragEffects = supported ? DragDropEffects.Copy : DragDropEffects.None;
-        DropOverlay.IsVisible = supported;
-        e.Handled = true;
-    }
-
-    private void OnDragLeave(object? sender, DragEventArgs e)
-    {
-        DropOverlay.IsVisible = false;
-        e.Handled = true;
-    }
-
-    private void OnDrop(object? sender, DragEventArgs e)
-    {
-        DropOverlay.IsVisible = false;
-
-        FormsDataObject dataObject = new();
-        string[] files = e.DataTransfer.TryGetFiles()?
-            .Select(file => file.TryGetLocalPath())
-            .Where(path => !string.IsNullOrEmpty(path))
-            .Cast<string>()
-            .ToArray() ?? [];
-
-        if (files.Length > 0)
-        {
-            dataObject.SetData(FormsDataFormats.FileDrop, files);
-        }
-
-        string? text = e.DataTransfer.TryGetText();
-        if (!string.IsNullOrEmpty(text))
-        {
-            dataObject.SetText(text);
-        }
-
-        UploadManager.DragDropUpload(dataObject);
-        e.DragEffects = DragDropEffects.Copy;
-        e.Handled = true;
     }
 
     private static void SaveSettings() => SettingManager.SaveApplicationConfigAsync();

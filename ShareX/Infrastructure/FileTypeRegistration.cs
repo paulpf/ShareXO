@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -17,11 +17,6 @@ internal static class FileTypeRegistration
         if (StartupOptions.Portable)
         {
             return;
-        }
-
-        if (!IntegrationHelpers.CheckCustomUploaderExtension())
-        {
-            IntegrationHelpers.CreateCustomUploaderExtension(true);
         }
 
         if (!IntegrationHelpers.CheckImageEffectExtension())

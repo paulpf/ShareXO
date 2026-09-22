@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -170,7 +170,7 @@ public partial class AutoCaptureWindow : Window
         TaskSettings.GeneralSettings.PlaySoundAfterUpload = false;
         TaskSettings.GeneralSettings.PlaySoundAfterAction = false;
         TaskSettings.GeneralSettings.ShowToastNotificationAfterTaskCompleted = false;
-        UploadManager.RunImageTask(bitmap, TaskSettings, true, true);
+        TaskLauncher.RunImageTask(bitmap, TaskSettings, true, true);
     }
 
     private void UpdateStatus()

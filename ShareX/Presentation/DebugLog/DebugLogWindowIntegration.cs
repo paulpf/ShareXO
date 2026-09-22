@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -19,7 +19,7 @@ public static class DebugLogWindowIntegration
 {
     private static DebugLogWindow? _window;
 
-    public static void Show(Logger logger, Action<string>? uploadRequested, string uploadWarning)
+    public static void Show(Logger logger)
     {
         Dispatcher.UIThread.Post(() =>
         {
@@ -34,7 +34,7 @@ public static class DebugLogWindowIntegration
                 return;
             }
 
-            _window = new DebugLogWindow(logger, uploadRequested, uploadWarning);
+            _window = new DebugLogWindow(logger);
             _window.Closed += (_, _) => _window = null;
             _window.Show();
         });

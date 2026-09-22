@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -49,7 +49,6 @@ internal static class ApplicationSettingsRuntime
         ApplicationConfig settings = ApplicationState.Settings;
 
         HelpersOptions.CurrentProxy = settings.ProxySettings;
-        HelpersOptions.URLEncodeIgnoreEmoji = settings.URLEncodeIgnoreEmoji;
         HelpersOptions.DefaultCopyImageFillBackground = settings.DefaultClipboardCopyImageFillBackground;
         HelpersOptions.UseAlternativeClipboardCopyImage = settings.UseAlternativeClipboardCopyImage;
         HelpersOptions.UseAlternativeClipboardGetImage = settings.UseAlternativeClipboardGetImage;
@@ -66,7 +65,9 @@ internal static class ApplicationSettingsRuntime
         _hotkeyHost?.ApplyHotkeySettings();
         _hotkeyHost?.UpdateTrayIcon();
 
-        ApplicationState.UpdateManager.AllowAutoUpdate = !SystemOptions.DisableUpdateCheck && settings.AutoCheckUpdate;
+        // Automatic update check is disabled: ShareX must not contact api.github.com on its own.
+        // Passing false here also disposes the update timer via ConfigureAutoUpdate().
+        ApplicationState.UpdateManager.AllowAutoUpdate = false;
         ApplicationState.UpdateManager.UpdateChannel = settings.UpdateChannel;
         ApplicationState.UpdateManager.ConfigureAutoUpdate();
 

@@ -95,7 +95,6 @@ namespace ShareX
                         File.Move(origPath, destPath);
                     }
 
-                    UploadManager.UploadFile(destPath, taskSettingsCopy);
                 };
 
                 WatchFolders.Add(watchFolder);

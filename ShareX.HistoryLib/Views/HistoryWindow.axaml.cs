@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -38,8 +38,6 @@ namespace ShareX.HistoryLib;
 
 public partial class HistoryWindow : Window
 {
-    private static readonly HttpClient PreviewHttpClient = new();
-
     private readonly HistoryManagerSQLite _historyManager;
     private readonly HistorySettings _settings;
     private readonly HistoryWindowServices _services;
@@ -414,16 +412,10 @@ public partial class HistoryWindow : Window
         PreviewUnavailable.IsVisible = true;
 
         string? imageSource = null;
-        bool localFile = false;
 
         if (!string.IsNullOrWhiteSpace(item.FilePath) && File.Exists(item.FilePath) && FileHelpers.IsImageFile(item.FilePath))
         {
             imageSource = item.FilePath;
-            localFile = true;
-        }
-        else if (!string.IsNullOrWhiteSpace(item.URL) && FileHelpers.IsImageFile(item.URL))
-        {
-            imageSource = item.URL;
         }
 
         if (imageSource == null)
@@ -433,20 +425,7 @@ public partial class HistoryWindow : Window
 
         try
         {
-            Bitmap bitmap;
-            if (localFile)
-            {
-                bitmap = await Task.Run(() => new Bitmap(imageSource), token);
-            }
-            else
-            {
-                byte[] data = await PreviewHttpClient.GetByteArrayAsync(imageSource, token);
-                bitmap = await Task.Run(() =>
-                {
-                    using MemoryStream stream = new(data, writable: false);
-                    return new Bitmap(stream);
-                }, token);
-            }
+            Bitmap bitmap = await Task.Run(() => new Bitmap(imageSource), token);
 
             if (token.IsCancellationRequested)
             {
@@ -604,7 +583,6 @@ public partial class HistoryWindow : Window
         UploadMenu.IsEnabled = single && file && _services.UploadFile != null;
         EditImageMenu.IsEnabled = single && imageFile && _services.EditImage != null;
         PinMenu.IsEnabled = single && imageFile && _services.PinToScreen != null;
-        AnalyzeMenu.IsEnabled = single && imageFile && _services.AnalyzeImage != null;
     }
 
     private void OnAdvancedClick(object? sender, RoutedEventArgs e)
@@ -1055,7 +1033,6 @@ public partial class HistoryWindow : Window
     private void OnUploadFileClick(object? sender, RoutedEventArgs e) => InvokeFileService(_services.UploadFile, false);
     private void OnEditImageClick(object? sender, RoutedEventArgs e) => InvokeFileService(_services.EditImage, true);
     private void OnPinToScreenClick(object? sender, RoutedEventArgs e) => InvokeFileService(_services.PinToScreen, true);
-    private void OnAnalyzeImageClick(object? sender, RoutedEventArgs e) => InvokeFileService(_services.AnalyzeImage, true);
     private void InvokeFileService(Action<string>? action, bool imageOnly)
     {
         HistoryItem? item = GetPrimaryItem();

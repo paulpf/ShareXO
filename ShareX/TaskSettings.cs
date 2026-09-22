@@ -30,7 +30,6 @@ using ShareX.ImageEditor.Integration;
 using ShareX.ImageEffectsLib;
 using ShareX.ScreenCaptureLib;
 using ShareX.Tools;
-using ShareX.UploadersLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,24 +54,6 @@ namespace ShareX
 
         public bool UseDefaultAfterCaptureJob = true;
         public AfterCaptureTasks AfterCaptureJob = AfterCaptureTasks.CopyImageToClipboard | AfterCaptureTasks.SaveImageToFile;
-
-        public bool UseDefaultAfterUploadJob = true;
-        public AfterUploadTasks AfterUploadJob = AfterUploadTasks.CopyURLToClipboard;
-
-        public bool UseDefaultDestinations = true;
-        public ImageDestination ImageDestination = ImageDestination.Imgur;
-        public FileDestination ImageFileDestination = FileDestination.Dropbox;
-        public TextDestination TextDestination = TextDestination.Pastebin;
-        public FileDestination TextFileDestination = FileDestination.Dropbox;
-        public FileDestination FileDestination = FileDestination.Dropbox;
-        public UrlShortenerType URLShortenerDestination = UrlShortenerType.BITLY;
-        public URLSharingServices URLSharingServiceDestination = URLSharingServices.Email;
-
-        public bool OverrideFTP = false;
-        public int FTPIndex = 0;
-
-        public bool OverrideCustomUploader = false;
-        public int CustomUploaderIndex = 0;
 
         public bool OverrideScreenshotsFolder = false;
         public string ScreenshotsFolder = "";
@@ -152,7 +133,7 @@ namespace ShareX
         {
             get
             {
-                return UseDefaultAfterCaptureJob && UseDefaultAfterUploadJob && UseDefaultDestinations && !OverrideFTP && !OverrideCustomUploader &&
+                return UseDefaultAfterCaptureJob &&
                     !OverrideScreenshotsFolder && UseDefaultGeneralSettings && UseDefaultImageSettings && UseDefaultCaptureSettings && UseDefaultUploadSettings &&
                     UseDefaultActions && UseDefaultToolsSettings && UseDefaultAdvancedSettings && !WatchFolderEnabled;
             }
@@ -195,22 +176,6 @@ namespace ShareX
                 if (UseDefaultAfterCaptureJob)
                 {
                     AfterCaptureJob = defaultTaskSettings.AfterCaptureJob;
-                }
-
-                if (UseDefaultAfterUploadJob)
-                {
-                    AfterUploadJob = defaultTaskSettings.AfterUploadJob;
-                }
-
-                if (UseDefaultDestinations)
-                {
-                    ImageDestination = defaultTaskSettings.ImageDestination;
-                    ImageFileDestination = defaultTaskSettings.ImageFileDestination;
-                    TextDestination = defaultTaskSettings.TextDestination;
-                    TextFileDestination = defaultTaskSettings.TextFileDestination;
-                    FileDestination = defaultTaskSettings.FileDestination;
-                    URLShortenerDestination = defaultTaskSettings.URLShortenerDestination;
-                    URLSharingServiceDestination = defaultTaskSettings.URLSharingServiceDestination;
                 }
 
                 if (UseDefaultGeneralSettings)
@@ -288,19 +253,6 @@ namespace ShareX
             }
         }
 
-        public FileDestination GetFileDestinationByDataType(EDataType dataType)
-        {
-            switch (dataType)
-            {
-                case EDataType.Image:
-                    return ImageFileDestination;
-                case EDataType.Text:
-                    return TextFileDestination;
-                default:
-                case EDataType.File:
-                    return FileDestination;
-            }
-        }
     }
 
     public class TaskSettingsGeneral
@@ -434,27 +386,8 @@ namespace ShareX
         public string NameFormatPattern = "%ra{10}";
         public string NameFormatPatternActiveWindow = "%pn_%ra{10}";
         public bool FileUploadUseNamePattern = false;
-        public bool FileUploadReplaceProblematicCharacters = false;
-        public bool URLRegexReplace = false;
-        public string URLRegexReplacePattern = "^https?://(.+)$";
-        public string URLRegexReplaceReplacement = "https://$1";
 
         #endregion Upload / File naming
-
-        #region Upload / Clipboard upload
-
-        public bool ClipboardUploadURLContents = false;
-        public bool ClipboardUploadShortenURL = false;
-        public bool ClipboardUploadShareURL = false;
-        public bool ClipboardUploadAutoIndexFolder = false;
-
-        #endregion Upload / Clipboard upload
-
-        #region Upload / Uploader filters
-
-        public List<UploaderFilter> UploaderFilters = new List<UploaderFilter>();
-
-        #endregion Upload / Uploader filters
     }
 
     public class TaskSettingsTools
@@ -468,7 +401,6 @@ namespace ShareX
         public VideoConverterOptions VideoConverterOptions = new VideoConverterOptions();
         public VideoThumbnailOptions VideoThumbnailOptions = new VideoThumbnailOptions();
         public BorderlessWindowSettings BorderlessWindowSettings = new BorderlessWindowSettings();
-        public AIOptions AIOptions = new AIOptions();
         public ImageEditorOptions ImageEditorOptions = new ImageEditorOptions();
         public BackgroundRemoverOptions BackgroundRemoverOptions = new BackgroundRemoverOptions();
     }

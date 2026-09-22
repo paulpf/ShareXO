@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -48,11 +48,8 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     private bool _startWithWindows;
     private bool _startWithWindowsEnabled;
     private string _startWithWindowsText = string.Empty;
-    private bool _shellContextMenu;
     private bool _editWithShareX;
     private bool _sendToMenu;
-    private bool _chromeExtensionSupport;
-    private bool _firefoxAddonSupport;
     private bool _steamShowInApp;
     private bool _exportSettings = true;
     private bool _exportHistory = true;
@@ -117,7 +114,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     public bool IsSettingsPage => IsPage("settings");
     public bool IsMainWindowPage => IsPage("main-window");
     public bool IsClipboardFormatsPage => IsPage("clipboard-formats");
-    public bool IsUploadPage => IsPage("upload");
     public bool IsHistoryPage => IsPage("history");
     public bool IsPrintPage => IsPage("print");
     public bool IsProxyPage => IsPage("proxy");
@@ -335,18 +331,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     public bool StartWithWindowsEnabled { get => _startWithWindowsEnabled; private set => SetField(ref _startWithWindowsEnabled, value); }
     public string StartWithWindowsText { get => _startWithWindowsText; private set => SetField(ref _startWithWindowsText, value); }
 
-    public bool ShellContextMenu
-    {
-        get => _shellContextMenu;
-        set
-        {
-            if (SetField(ref _shellContextMenu, value))
-            {
-                InvokeOnMainThread(() => IntegrationHelpers.CreateShellContextMenuButton(value));
-            }
-        }
-    }
-
     public bool EditWithShareX
     {
         get => _editWithShareX;
@@ -367,30 +351,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
             if (SetField(ref _sendToMenu, value))
             {
                 InvokeOnMainThread(() => IntegrationHelpers.CreateSendToMenuButton(value));
-            }
-        }
-    }
-
-    public bool ChromeExtensionSupport
-    {
-        get => _chromeExtensionSupport;
-        set
-        {
-            if (SetField(ref _chromeExtensionSupport, value))
-            {
-                InvokeOnMainThread(() => IntegrationHelpers.CreateChromeExtensionSupport(value));
-            }
-        }
-    }
-
-    public bool FirefoxAddonSupport
-    {
-        get => _firefoxAddonSupport;
-        set
-        {
-            if (SetField(ref _firefoxAddonSupport, value))
-            {
-                InvokeOnMainThread(() => IntegrationHelpers.CreateFirefoxAddonSupport(value));
             }
         }
     }
@@ -518,18 +478,7 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
 
     public bool HasSelectedClipboardFormat => SelectedClipboardFormat != null;
 
-    public decimal UploadLimit { get => Settings.UploadLimit; set => SetSetting(Settings.UploadLimit, decimal.ToInt32(value), x => Settings.UploadLimit = x); }
-
-    public EnumOption<int>? SelectedBufferSize
-    {
-        get => Find(BufferSizeOptions, Settings.BufferSizePower);
-        set { if (value != null) SetSetting(Settings.BufferSizePower, value.Value, x => Settings.BufferSizePower = x); }
-    }
-
-    public decimal MaxUploadFailRetry { get => Settings.MaxUploadFailRetry; set => SetSetting(Settings.MaxUploadFailRetry, decimal.ToInt32(value), x => Settings.MaxUploadFailRetry = x); }
-
     public bool HistorySaveTasks { get => Settings.HistorySaveTasks; set => SetSetting(Settings.HistorySaveTasks, value, x => Settings.HistorySaveTasks = x); }
-    public bool HistoryCheckURL { get => Settings.HistoryCheckURL; set => SetSetting(Settings.HistoryCheckURL, value, x => Settings.HistoryCheckURL = x); }
     public bool RecentTasksSave { get => Settings.RecentTasksSave; set => SetSetting(Settings.RecentTasksSave, value, x => Settings.RecentTasksSave = x); }
     public decimal RecentTasksMaxCount { get => Settings.RecentTasksMaxCount; set => SetSetting(Settings.RecentTasksMaxCount, decimal.ToInt32(value), x => Settings.RecentTasksMaxCount = x); }
     public bool RecentTasksShowInMainWindow { get => Settings.RecentTasksShowInMainWindow; set => SetSetting(Settings.RecentTasksShowInMainWindow, value, x => Settings.RecentTasksShowInMainWindow = x); }
@@ -613,13 +562,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     public bool RotateImageByExifOrientationData { get => Settings.RotateImageByExifOrientationData; set => SetSetting(Settings.RotateImageByExifOrientationData, value, x => Settings.RotateImageByExifOrientationData = x); }
     public bool PNGStripColorSpaceInformation { get => Settings.PNGStripColorSpaceInformation; set => SetSetting(Settings.PNGStripColorSpaceInformation, value, x => Settings.PNGStripColorSpaceInformation = x); }
 
-    public bool DisableUpload { get => Settings.DisableUpload; set => SetSetting(Settings.DisableUpload, value, x => Settings.DisableUpload = x); }
-    public bool URLEncodeIgnoreEmoji { get => Settings.URLEncodeIgnoreEmoji; set => SetSetting(Settings.URLEncodeIgnoreEmoji, value, x => Settings.URLEncodeIgnoreEmoji = x); }
-    public bool ShowMultiUploadWarning { get => Settings.ShowMultiUploadWarning; set => SetSetting(Settings.ShowMultiUploadWarning, value, x => Settings.ShowMultiUploadWarning = x); }
-    public decimal ShowLargeFileSizeWarning { get => Settings.ShowLargeFileSizeWarning; set => SetSetting(Settings.ShowLargeFileSizeWarning, decimal.ToInt32(value), x => Settings.ShowLargeFileSizeWarning = x); }
-
-    public bool UseMachineSpecificUploadersConfig { get => Settings.UseMachineSpecificUploadersConfig; set => SetSetting(Settings.UseMachineSpecificUploadersConfig, value, x => Settings.UseMachineSpecificUploadersConfig = x); }
-    public string CustomUploadersConfigPath { get => Settings.CustomUploadersConfigPath ?? string.Empty; set => SetSetting(Settings.CustomUploadersConfigPath, value, x => Settings.CustomUploadersConfigPath = x); }
     public string CustomHotkeysConfigPath { get => Settings.CustomHotkeysConfigPath ?? string.Empty; set => SetSetting(Settings.CustomHotkeysConfigPath, value, x => Settings.CustomHotkeysConfigPath = x); }
     public string CustomScreenshotsPath2 { get => Settings.CustomScreenshotsPath2 ?? string.Empty; set => SetSetting(Settings.CustomScreenshotsPath2, value, x => Settings.CustomScreenshotsPath2 = x); }
 
@@ -700,8 +642,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         }
     }
 
-    public void OpenChromeExtensionPage() => URLHelpers.OpenURL("https://chrome.google.com/webstore/detail/sharex/nlkoigbdolhchiicbonbihbphgamnaoc");
-    public void OpenFirefoxAddonPage() => URLHelpers.OpenURL("https://addons.mozilla.org/en-US/firefox/addon/sharex/");
     public void OpenPersonalFolder() => FileHelpers.OpenFolder(PersonalFolderPreview);
     public void OpenScreenshotsFolder() => FileHelpers.OpenFolder(ScreenshotsFolderPreview);
 
@@ -855,7 +795,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
             Nav("settings", Strings.ApplicationSettingsWindow_Settings, LucideIcons.database_backup),
             Nav("main-window", Strings.ApplicationSettingsWindow_MainWindow, LucideIcons.monitor),
             Nav("clipboard-formats", Strings.ApplicationSettingsWindow_ClipboardFormats, LucideIcons.clipboard_list),
-            Nav("upload", Strings.ApplicationSettingsWindow_Upload, LucideIcons.upload),
             Nav("history", Strings.ApplicationSettingsWindow_History, LucideIcons.history),
             Nav("print", Strings.ApplicationSettingsWindow_Print, LucideIcons.printer),
             Nav("proxy", Strings.ApplicationSettingsWindow_Proxy, LucideIcons.network),
@@ -876,11 +815,8 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     private void RefreshIntegrations()
     {
 #if !MicrosoftStore
-        _shellContextMenu = IntegrationHelpers.CheckShellContextMenuButton();
         _editWithShareX = IntegrationHelpers.CheckEditShellContextMenuButton();
         _sendToMenu = IntegrationHelpers.CheckSendToMenuButton();
-        _chromeExtensionSupport = IntegrationHelpers.CheckChromeExtensionSupport();
-        _firefoxAddonSupport = IntegrationHelpers.CheckFirefoxAddonSupport();
 #endif
 #if STEAM
         _steamShowInApp = IntegrationHelpers.CheckSteamShowInApp();
@@ -967,7 +903,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         OnPropertyChanged(nameof(IsSettingsPage));
         OnPropertyChanged(nameof(IsMainWindowPage));
         OnPropertyChanged(nameof(IsClipboardFormatsPage));
-        OnPropertyChanged(nameof(IsUploadPage));
         OnPropertyChanged(nameof(IsHistoryPage));
         OnPropertyChanged(nameof(IsPrintPage));
         OnPropertyChanged(nameof(IsProxyPage));
@@ -992,7 +927,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
             .Select(power => new EnumOption<int>(power, ((long)(Math.Pow(2, power) * 1024)).ToSizeString(Settings.BinaryUnits, 0)))
             .ToArray();
         OnPropertyChanged(nameof(BufferSizeOptions));
-        OnPropertyChanged(nameof(SelectedBufferSize));
     }
 
     private void FlushPersonalPath()

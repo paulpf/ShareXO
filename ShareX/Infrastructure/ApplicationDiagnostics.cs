@@ -1,4 +1,4 @@
-#region License Information (GPL v3)
+﻿#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
@@ -51,7 +51,6 @@ internal static class ApplicationDiagnostics
         if (StartupOptions.Sandbox) flags.Add(nameof(StartupOptions.Sandbox));
         if (StartupOptions.IgnoreHotkeyWarning) flags.Add(nameof(StartupOptions.IgnoreHotkeyWarning));
         if (SystemOptions.DisableUpdateCheck) flags.Add(nameof(SystemOptions.DisableUpdateCheck));
-        if (SystemOptions.DisableUpload) flags.Add(nameof(SystemOptions.DisableUpload));
         if (SystemOptions.DisableLogging) flags.Add(nameof(SystemOptions.DisableLogging));
 
         if (flags.Count > 0)

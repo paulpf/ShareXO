@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:localization="using:ShareX.Tools.Localization"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -119,13 +119,6 @@
                             <TextBlock Text="{x:Static theming:LucideIcons.save}"
                                        Classes="icon"/>
                             <TextBlock Text="{x:Static localization:Strings.QRCodeWindow_Save}"/>
-                        </StackPanel>
-                    </Button>
-                    <Button Grid.Column="2" Command="{Binding UploadImageCommand}" IsEnabled="{Binding HasQRCode}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="{x:Static theming:LucideIcons.upload}"
-                                       Classes="icon"/>
-                            <TextBlock Text="{x:Static localization:Strings.QRCodeWindow_Upload}"/>
                         </StackPanel>
                     </Button>
                 </Grid>

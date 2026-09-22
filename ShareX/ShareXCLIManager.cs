@@ -55,22 +55,14 @@ namespace ShareX
 
                     if (command.IsCommand)
                     {
-                        if (CheckCustomUploader(command) || CheckImageEffect(command) || await CheckCLIHotkey(command) || await CheckCLIWorkflow(command) ||
-                            await CheckNativeMessagingInput(command))
+                        if (CheckImageEffect(command) || await CheckCLIHotkey(command) || await CheckCLIWorkflow(command))
                         {
                         }
 
                         continue;
                     }
 
-                    if (URLHelpers.IsValidURL(command.Command))
-                    {
-                        UploadManager.DownloadAndUploadFile(command.Command, taskSettings);
-                    }
-                    else
-                    {
-                        UploadManager.UploadFile(command.Command, taskSettings);
-                    }
+                    DebugHelper.WriteLine("CommandLine: ignoring bare argument, ShareX no longer uploads: " + command.Command);
                 }
             }
         }
@@ -94,21 +86,6 @@ namespace ShareX
             }
 
             return null;
-        }
-
-        private bool CheckCustomUploader(CLICommand command)
-        {
-            if (command.Command.Equals("CustomUploader", StringComparison.OrdinalIgnoreCase))
-            {
-                if (!string.IsNullOrEmpty(command.Parameter) && command.Parameter.EndsWith(".sxcu", StringComparison.OrdinalIgnoreCase))
-                {
-                    TaskHelpers.ImportCustomUploader(command.Parameter);
-                }
-
-                return true;
-            }
-
-            return false;
         }
 
         private bool CheckImageEffect(CLICommand command)
@@ -192,19 +169,5 @@ namespace ShareX
             return false;
         }
 
-        private async Task<bool> CheckNativeMessagingInput(CLICommand command)
-        {
-            if (command.Command.Equals("NativeMessagingInput", StringComparison.OrdinalIgnoreCase))
-            {
-                if (!string.IsNullOrEmpty(command.Parameter) && command.Parameter.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-                {
-                    await TaskHelpers.HandleNativeMessagingInput(command.Parameter);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
     }
 }

@@ -43,8 +43,7 @@ public partial class QRCodeWindow : Window
             GeneratePreviewAsync = (_, _) => Task.FromResult<byte[]?>(null),
             ScanAsync = (_, _) => Task.FromResult<string[]?>(null),
             SaveAsync = (_, _, _) => Task.CompletedTask,
-            CopyImage = (_, _) => { },
-            UploadImage = (_, _) => { }
+            CopyImage = (_, _) => { }
         }, new QRCodeWindowOptions())
     {
     }
