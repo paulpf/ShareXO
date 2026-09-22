@@ -51,8 +51,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
     private bool _shellContextMenu;
     private bool _editWithShareX;
     private bool _sendToMenu;
-    private bool _chromeExtensionSupport;
-    private bool _firefoxAddonSupport;
     private bool _steamShowInApp;
     private bool _exportSettings = true;
     private bool _exportHistory = true;
@@ -370,30 +368,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         }
     }
 
-    public bool ChromeExtensionSupport
-    {
-        get => _chromeExtensionSupport;
-        set
-        {
-            if (SetField(ref _chromeExtensionSupport, value))
-            {
-                InvokeOnMainThread(() => IntegrationHelpers.CreateChromeExtensionSupport(value));
-            }
-        }
-    }
-
-    public bool FirefoxAddonSupport
-    {
-        get => _firefoxAddonSupport;
-        set
-        {
-            if (SetField(ref _firefoxAddonSupport, value))
-            {
-                InvokeOnMainThread(() => IntegrationHelpers.CreateFirefoxAddonSupport(value));
-            }
-        }
-    }
-
     public bool SteamShowInApp
     {
         get => _steamShowInApp;
@@ -681,8 +655,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         }
     }
 
-    public void OpenChromeExtensionPage() => URLHelpers.OpenURL("https://chrome.google.com/webstore/detail/sharex/nlkoigbdolhchiicbonbihbphgamnaoc");
-    public void OpenFirefoxAddonPage() => URLHelpers.OpenURL("https://addons.mozilla.org/en-US/firefox/addon/sharex/");
     public void OpenPersonalFolder() => FileHelpers.OpenFolder(PersonalFolderPreview);
     public void OpenScreenshotsFolder() => FileHelpers.OpenFolder(ScreenshotsFolderPreview);
 
@@ -859,8 +831,6 @@ public sealed class ApplicationSettingsViewModel : INotifyPropertyChanged, IDisp
         _shellContextMenu = IntegrationHelpers.CheckShellContextMenuButton();
         _editWithShareX = IntegrationHelpers.CheckEditShellContextMenuButton();
         _sendToMenu = IntegrationHelpers.CheckSendToMenuButton();
-        _chromeExtensionSupport = IntegrationHelpers.CheckChromeExtensionSupport();
-        _firefoxAddonSupport = IntegrationHelpers.CheckFirefoxAddonSupport();
 #endif
 #if STEAM
         _steamShowInApp = IntegrationHelpers.CheckSteamShowInApp();

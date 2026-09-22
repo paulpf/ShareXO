@@ -273,24 +273,6 @@
                                     <CheckBox Classes="setting" IsVisible="{Binding WindowsIntegrationVisible}" Content="{x:Static res:Strings.ApplicationSettingsWindow_ShowShareXInSendToMenu}" IsChecked="{Binding SendToMenu, Mode=TwoWay}"/>
                                 </StackPanel>
                             </Border>
-                            <StackPanel controls:SettingsSearch.IsAvailabilityContainer="True" IsVisible="{Binding WindowsIntegrationVisible}">
-                                <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
-                                    <StackPanel Spacing="4">
-                                        <TextBlock Classes="section-title" Text="{x:Static res:Strings.ApplicationSettingsWindow_ChromeExtension}"/>
-                                        <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_EnableChromeExtensionSupport}" IsChecked="{Binding ChromeExtensionSupport, Mode=TwoWay}"/>
-                                        <Button Classes="compact" HorizontalAlignment="Left" Content="{x:Static res:Strings.ApplicationSettingsWindow_InstallShareXChromeExtension}" IsEnabled="{Binding ChromeExtensionSupport}" Click="OnOpenChromeExtensionClick"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                            <StackPanel controls:SettingsSearch.IsAvailabilityContainer="True" IsVisible="{Binding WindowsIntegrationVisible}">
-                                <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
-                                    <StackPanel Spacing="4">
-                                        <TextBlock Classes="section-title" Text="{x:Static res:Strings.ApplicationSettingsWindow_FirefoxAddon}"/>
-                                        <CheckBox Classes="setting" Content="{x:Static res:Strings.ApplicationSettingsWindow_EnableFirefoxAddonSupport}" IsChecked="{Binding FirefoxAddonSupport, Mode=TwoWay}"/>
-                                        <Button Classes="compact" HorizontalAlignment="Left" Content="{x:Static res:Strings.ApplicationSettingsWindow_InstallShareXFirefoxAddon}" IsEnabled="{Binding FirefoxAddonSupport}" Click="OnOpenFirefoxAddonClick"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
                             <StackPanel controls:SettingsSearch.IsAvailabilityContainer="True" IsVisible="{Binding SteamIntegrationVisible}">
                                 <Border Classes="section-card" controls:SettingsSearch.IsPanel="True">
                                     <StackPanel Spacing="4">
