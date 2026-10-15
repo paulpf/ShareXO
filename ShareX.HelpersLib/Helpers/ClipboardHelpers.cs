@@ -41,6 +41,7 @@ namespace ShareX.HelpersLib
 
         private const int RetryTimes = 20;
         private const int RetryDelay = 100;
+        private const int VerificationRetryTimes = 3;
 
         private static readonly object ClipboardLock = new object();
 
@@ -50,10 +51,25 @@ namespace ShareX.HelpersLib
             {
                 lock (ClipboardLock)
                 {
-                    Clipboard.SetDataObject(data, copy, RetryTimes, RetryDelay);
-                }
+                    string[] expectedFormats = data.GetFormats(false);
 
-                return true;
+                    for (int attempt = 0; attempt < VerificationRetryTimes; attempt++)
+                    {
+                        Clipboard.SetDataObject(data, copy, RetryTimes, RetryDelay);
+
+                        IDataObject clipboardData = Clipboard.GetDataObject();
+
+                        if (clipboardData != null && expectedFormats.All(format => clipboardData.GetDataPresent(format, false)))
+                        {
+                            return true;
+                        }
+
+                        if (attempt < VerificationRetryTimes - 1)
+                        {
+                            System.Threading.Thread.Sleep(RetryDelay);
+                        }
+                    }
+                }
             }
 
             return false;
@@ -64,7 +80,7 @@ namespace ShareX.HelpersLib
             try
             {
                 IDataObject data = new DataObject();
-                CopyData(data, false);
+                return CopyData(data, false);
             }
             catch (Exception e)
             {

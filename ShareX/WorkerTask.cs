@@ -274,8 +274,14 @@ namespace ShareX
 
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.CopyImageToClipboard))
             {
-                ClipboardHelpers.CopyImage(Image, Info.FileName);
-                DebugHelper.WriteLine("Image copied to clipboard.");
+                if (ClipboardHelpers.CopyImage(Image, Info.FileName))
+                {
+                    DebugHelper.WriteLine("Image copied to clipboard.");
+                }
+                else
+                {
+                    DebugHelper.WriteLine("Error: Image could not be copied to clipboard.");
+                }
             }
 
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.PinToScreen))
