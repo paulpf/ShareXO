@@ -76,9 +76,9 @@ The exact feature set follows the `develop` branch and can change as upstream Sh
 
 ![ShareXO Offline distribution roadmap](.github/assets/sharexo-offline-roadmap.png)
 
-ShareXO is intended to use **GitHub Releases as its only distribution channel**. Future cleanup will remove Microsoft Store, Steam and other store-specific packaging and release paths, leaving conventional local installation and portable packages downloaded directly from this repository.
+ShareXO uses **GitHub Releases as its only distribution channel**. Tagged releases provide conventional local installers and portable packages downloaded directly from this repository. Microsoft Store, Steam and other store-specific packages are not published.
 
-This transition is not complete yet: store-specific build configurations and CI jobs still exist in the current source tree. Until they are removed, GitHub remains the authoritative project location, but the build system may still produce additional package formats.
+Store-specific build configurations still exist in parts of the inherited source tree and are planned for later removal. The active GitHub Actions workflows build only the local x64 Release configuration. ARM64 packages are not supported or published.
 
 ## Building from source
 
@@ -98,7 +98,7 @@ dotnet restore --runtime win-x64 ShareX.sln
 dotnet build --no-restore --configuration Release -p:Platform=x64 --self-contained true ShareX.sln
 ```
 
-For ARM64, replace `win-x64` with `win-arm64` and `x64` with `ARM64`. The main application output is written below `ShareX/bin/<Configuration>/<RuntimeIdentifier>/`. The GitHub Actions workflow additionally builds installer and portable artifacts.
+The main application output is written below `ShareX/bin/<Configuration>/<RuntimeIdentifier>/`. The GitHub Actions workflow additionally builds x64 installer and portable artifacts for tagged releases.
 
 ## Diagnostics
 
