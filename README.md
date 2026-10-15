@@ -1,131 +1,136 @@
-<p align="center"><a href="https://getsharex.com"><img src="https://getsharex.com/img/ShareX_Banner.png" alt="ShareX Banner"/></a></p>
-<h3 align="center">Screen capture, file sharing and productivity tool</h3>
-<br>
-<div align="center">
-  <a href="https://github.com/ShareX/ShareX/actions/workflows/build.yml"><img src="https://img.shields.io/github/actions/workflow/status/ShareX/ShareX/build.yml?branch=develop&label=Build&cacheSeconds=3600" alt="GitHub Workflow Status"/></a>
-  <a href="./LICENSE.txt"><img src="https://img.shields.io/github/license/ShareX/ShareX?label=License&color=brightgreen&cacheSeconds=3600" alt="License"/></a>
-  <a href="https://github.com/ShareX/ShareX/releases/latest"><img src="https://img.shields.io/github/v/release/ShareX/ShareX?label=Release&color=brightgreen&cacheSeconds=3600" alt="Release"/></a>
-  <a href="https://getsharex.com/downloads"><img src="https://img.shields.io/github/downloads/ShareX/ShareX/total?label=Downloads&cacheSeconds=3600" alt="Downloads"/></a>
-  <a href="https://discord.gg/ShareX"><img src="https://img.shields.io/discord/194170124859736065?label=Discord&cacheSeconds=3600" alt="Discord"/></a>
-  <a href="https://twitter.com/intent/follow?screen_name=ShareX"><img src="https://img.shields.io/twitter/follow/ShareX?cacheSeconds=3600" alt="Twitter"/></a>
-</div>
-<br>
-<p align="center"><a href="https://getsharex.com"><img src="https://getsharex.com/img/ShareX_Screenshot.png" alt="ShareX Screenshot"/></a></p>
-<p align="center">For further information please check our <a href="https://getsharex.com">website</a></p>
+# ShareXO
 
-# ShareX - Free Screen Capture, Screenshot and Productivity Tool
+**ShareX Offline — local-first screen capture without upload or sharing features.**
 
-ShareX is a free and open source screenshot tool, screen recorder and productivity application for Windows. It is designed for users who need fast screen capture, powerful screenshot editing and practical utilities in one lightweight desktop app.
+[![Build](https://github.com/paulpf/ShareXO/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/paulpf/ShareXO/actions/workflows/build.yml)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-brightgreen.svg)](LICENSE.txt)
+[![Upstream: ShareX](https://img.shields.io/badge/upstream-ShareX-blue.svg)](https://github.com/ShareX/ShareX)
 
-**This build has no upload functionality.** Every uploader, sharing service and URL shortener has been removed from the source, along with the browser extension host and the AI image analysis. Apart from the manual update check in the About window, the application makes no outbound network connection.
+ShareXO is a privacy-focused Windows fork of [ShareX](https://github.com/ShareX/ShareX). The **O stands for Offline**: upload and sharing functionality is intentionally absent. The fork keeps ShareX's mature screen-capture, recording, image-editing, OCR, QR-code and local automation features while removing its online-sharing stack.
 
-With ShareX, you can capture any area of your screen, record video or GIFs, annotate screenshots, extract text with OCR, scan QR codes, pick colors and run custom workflows from hotkeys. ShareX is built for speed and control: capture a screenshot, edit it, save it, copy it or pass it through your own task chain with minimal manual work.
+The guiding rule is simple: a capture stays local unless the user explicitly starts an operation that can access the network.
 
-## Why ShareX?
+> [!IMPORTANT]
+> ShareXO is an independent fork and is not an official ShareX release. Upstream documentation may describe upload, destination and sharing features that do not exist here.
 
-ShareX combines screen capture, screen recording, image editing and automation features that are often split across multiple applications. It is completely free, open source, lightweight, privacy focused and has no advertisements. No account is required to use ShareX.
+## Table of contents
 
-ShareX is especially useful for developers, designers, support teams, content creators, technical writers, QA testers and power users who frequently create screenshots, record short clips or document workflows. It can be used as a simple screenshot app, but it also supports advanced workflows for users who want precise control over capture methods, after-capture tasks and hotkeys.
+- [What is different from ShareX?](#what-is-different-from-sharex)
+- [Network behavior](#network-behavior)
+- [Included features](#included-features)
+- [Distribution roadmap](#distribution-roadmap)
+- [Building from source](#building-from-source)
+- [Diagnostics](#diagnostics)
+- [Reporting issues](#reporting-issues)
+- [Upstream and license](#upstream-and-license)
 
-## Screenshot and Screen Recording Features
+## What is different from ShareX?
 
-ShareX supports many ways to capture your screen:
+| Area | ShareXO behavior |
+| --- | --- |
+| Uploads | Removed from the UI, task pipeline, hotkeys, CLI and source tree |
+| Cloud destinations | Removed, including built-in and custom uploaders |
+| URL sharing and shortening | Removed |
+| OAuth and uploader credentials | Removed with `ShareX.UploadersLib` |
+| Browser integration | Native messaging host and Chrome/Firefox registration removed |
+| AI image analysis | Removed, including OpenAI, Gemini and OpenRouter providers |
+| Remote image loading | Editor “Load from URL” and remote history thumbnails removed |
+| FFmpeg downloads | Automatic/downloader code removed; local `ffmpeg.exe` execution remains |
+| Update checks | Automatic checks disabled; manual checks remain available |
+| Clipboard copies | Writes are verified and retried to reduce intermittent copy failures |
 
-* Fullscreen capture
-* Active window capture
-* Active monitor capture
-* Region capture
-* Scrolling screenshot capture
-* Last region capture
-* Custom region capture
-* Screen recording
-* GIF screen recording
-* Auto capture
+The removal covers the complete upload workflow rather than merely hiding buttons. Upload jobs, after-upload actions, uploader configuration, destination settings, upload progress, upload dialogs, `.sxcu` registration and the uploader library itself are no longer part of the application.
 
-After capturing a screenshot or recording, ShareX can automatically copy the result to the clipboard, save it to a file, open it in the image editor, print it, show it in Windows Explorer, run an action, scan a QR code or recognize text with OCR. These after-capture tasks make ShareX a flexible screenshot workflow tool instead of only a basic snipping utility.
+Existing ShareX configuration files remain broadly compatible with local workflows. Surviving task-flag values were preserved where possible. An existing `UploadersConfig.json` is left untouched but is no longer read or written.
 
-## Region Capture and Annotation
+## Network behavior
 
-ShareX region capture includes tools for selecting exactly what you want to capture and marking it before saving or copying. You can draw rectangles, ellipses, freehand lines, arrows, text, speech balloons, step numbers, highlights, blur effects, pixelation, magnification and spotlight effects.
+ShareXO does not perform an automatic update check at startup and no longer contains the application upload paths described above.
 
-These annotation tools help create clear screenshots for bug reports, documentation, tutorials, support replies, pull requests and release notes. Sensitive information can be hidden with blur, pixelate or smart eraser tools before a screenshot is shared.
+Network access can still happen in these explicit or external situations:
 
-## Built-in Image Editor
+- selecting a manual update or development-build check;
+- running a user-configured external action or program that accesses the network;
+- restoring NuGet packages or downloading build dependencies while compiling the project;
+- CI packaging, which downloads the selected FFmpeg build.
 
-The ShareX image editor lets you crop, annotate, redact, highlight and prepare screenshots after capture. It includes common editing tools such as shapes, arrows, text, freehand drawing, image insertion, cursor insertion, blur, pixelate, magnify, spotlight, crop, cut out, background editing and image effects.
+This is a description of the intended application behavior, not a claim that Windows, third-party binaries or user-defined actions are offline. The fork has not been presented as a formal security audit or sandbox.
 
-Because the editor is part of the capture workflow, you can take a screenshot, mark the important area, hide private details and then copy or save the edited image without switching between separate apps.
+## Included features
 
-## Productivity Tools
+ShareXO retains the local parts of ShareX, including:
 
-ShareX includes many utilities that support everyday desktop work:
+- fullscreen, window, monitor, region, scrolling and automatic capture;
+- screen recording and GIF recording with a locally available FFmpeg binary;
+- the region-capture annotation tools and integrated image editor;
+- crop, shapes, arrows, text, freehand drawing, blur, pixelation, highlighting and image effects;
+- save-to-file, copy-to-clipboard, print, pin-to-screen and open-in-Explorer workflows;
+- OCR, QR-code generation and scanning, color picker, ruler and screen inspection tools;
+- image viewer, comparer, combiner, splitter, thumbnailer and metadata tools;
+- configurable hotkeys, watch folders and local external actions;
+- capture history and configurable file naming.
 
-* Color picker
-* Screen color picker
-* Ruler
-* Pin to screen
-* Image editor
-* Image beautifier
-* Image effects
-* Image viewer
-* Background remover
-* Image comparer
-* Image combiner
-* Image splitter
-* Image thumbnailer
-* Video converter
-* Video thumbnailer
-* Analyze image
-* OCR for recognizing text in images
-* QR code
-* Hash checker
-* Metadata viewer
-* Directory indexer
-* Clipboard viewer
-* Borderless window
-* Inspect window
-* Monitor test
+The exact feature set follows the `develop` branch and can change as upstream ShareX evolves.
 
-These tools make ShareX useful beyond screenshots. It can help inspect images, prepare assets, extract information, verify files and speed up repetitive tasks.
+## Distribution roadmap
 
-## Custom Workflows and Hotkeys
+![ShareXO Offline distribution roadmap](.github/assets/sharexo-offline-roadmap.png)
 
-ShareX is built around configurable workflows. You can assign hotkeys to capture methods, choose what happens after capture and create actions that run external tools or scripts. This makes it possible to build a workflow such as capture region, annotate image, save locally and copy the image to the clipboard.
+ShareXO is intended to use **GitHub Releases as its only distribution channel**. Future cleanup will remove Microsoft Store, Steam and other store-specific packaging and release paths, leaving conventional local installation and portable packages downloaded directly from this repository.
 
-The workflow system is one of the main reasons ShareX is popular with power users. Simple tasks can stay simple, while advanced users can automate detailed screenshot and screen recording processes.
+This transition is not complete yet: store-specific build configurations and CI jobs still exist in the current source tree. Until they are removed, GitHub remains the authoritative project location, but the build system may still produce additional package formats.
 
-## Download ShareX
+## Building from source
 
-ShareX is available from the official website, GitHub releases, Microsoft Store and Steam. You can install the regular setup version, use a portable version or try development builds if you want the newest changes before a stable release.
+### Requirements
 
-For the safest download options, use the official links below.
+- Windows
+- Git
+- .NET 10 SDK
+- the Windows SDK required by `net10.0-windows10.0.22621.0`
 
-## Links
-* Official website: https://getsharex.com
-* Downloads: https://getsharex.com/downloads
-* GitHub: https://github.com/ShareX/ShareX
-* Changelog: https://getsharex.com/changelog
-* Screenshots: https://getsharex.com/screenshots
-* Privacy policy: https://getsharex.com/privacy-policy
-* Donate: https://getsharex.com/donate
-* X: https://x.com/ShareX
-* Discord: https://discord.gg/ShareX
-* Reddit: https://www.reddit.com/r/sharex
-* Steam page: https://store.steampowered.com/app/400040/ShareX/
-* Microsoft Store page: https://apps.microsoft.com/detail/9nblggh4z1sp
-* ShareX related projects on GitHub: https://github.com/topics/sharex
+Clone the fork and build the x64 Release configuration:
 
-## Documents
-* Image effects: https://getsharex.com/image-effects
-* Actions: https://getsharex.com/actions
-* Dev builds: https://getsharex.com/docs/dev-builds
-* Keybinds: https://getsharex.com/docs/keybinds
-* Region capture: https://getsharex.com/docs/region-capture
-* Image editor: https://getsharex.com/docs/image-editor
-* Background remover: https://getsharex.com/docs/background-remover
-* Pin to screen: https://getsharex.com/docs/pin-to-screen
-* Scrolling screenshot: https://getsharex.com/docs/scrolling-screenshot
-* Command line arguments: https://getsharex.com/docs/command-line-arguments
-* Translation: https://getsharex.com/docs/translation
-* OCR: https://getsharex.com/docs/ocr
-* Brand assets: https://getsharex.com/brand-assets
+```powershell
+git clone https://github.com/paulpf/ShareXO.git
+cd ShareXO
+dotnet restore --runtime win-x64 ShareX.sln
+dotnet build --no-restore --configuration Release -p:Platform=x64 --self-contained true ShareX.sln
+```
+
+For ARM64, replace `win-x64` with `win-arm64` and `x64` with `ARM64`. The main application output is written below `ShareX/bin/<Configuration>/<RuntimeIdentifier>/`. The GitHub Actions workflow additionally builds installer and portable artifacts.
+
+## Diagnostics
+
+Runtime diagnostics are written to a monthly log file:
+
+```text
+%USERPROFILE%\Documents\ShareX\Logs\ShareX-Log-YYYY-MM.txt
+```
+
+If a custom personal folder is configured, the `Logs` directory is located there instead. The active log can also be opened from **Debug → Show debug log → Open log file**.
+
+Logs can contain local file names, paths and command-line arguments. Review them before attaching them to a public issue.
+
+## Reporting issues
+
+Report fork-specific problems in the [ShareXO issue tracker](https://github.com/paulpf/ShareXO/issues). When reporting an intermittent capture or clipboard problem, include:
+
+- the approximate time of the failure;
+- whether it occurred after direct capture or in the image editor;
+- the relevant excerpt from the ShareX log;
+- the Windows version and ShareXO commit or build version.
+
+For behavior that is reproducible in an unmodified ShareX build, consult the [upstream ShareX repository](https://github.com/ShareX/ShareX).
+
+## Upstream and license
+
+ShareXO is based on ShareX, Copyright © 2007–2026 ShareX Team and contributors. The fork remains licensed under the GNU General Public License; see [LICENSE.txt](LICENSE.txt).
+
+Useful upstream resources:
+
+- [ShareX repository](https://github.com/ShareX/ShareX)
+- [ShareX documentation](https://getsharex.com/docs/)
+- [ShareX image editor documentation](https://getsharex.com/docs/image-editor)
+- [ShareX region capture documentation](https://getsharex.com/docs/region-capture)
+- [ShareX command-line documentation](https://getsharex.com/docs/command-line-arguments)
