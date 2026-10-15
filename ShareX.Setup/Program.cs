@@ -71,7 +71,7 @@ namespace ShareX.Setup
         private static string ExecutablePath => Path.Combine(BinDir, "ShareX.exe");
 
         private static string OutputDir => Path.Combine(ParentDir, "Output");
-        private static string PortableOutputDir => Path.Combine(OutputDir, "ShareX-portable");
+        private static string PortableOutputDir => Path.Combine(OutputDir, "ShareXO-portable");
         private static string DebugOutputDir => Path.Combine(OutputDir, "ShareX-debug");
         private static string SteamOutputDir => Path.Combine(OutputDir, "ShareX-Steam");
         private static string MicrosoftStoreOutputDir => Path.Combine(OutputDir, "ShareX-MicrosoftStore");
@@ -81,8 +81,8 @@ namespace ShareX.Setup
         private static string InnoSetupDir => Path.Combine(SetupDir, "InnoSetup");
         private static string MicrosoftStorePackageFilesDir => Path.Combine(SetupDir, "MicrosoftStore");
 
-        private static string SetupPath => Path.Combine(OutputDir, $"ShareX-{AppVersion}-setup-{Platform}.exe");
-        private static string PortableZipPath => Path.Combine(OutputDir, $"ShareX-{AppVersion}-portable-{Platform}.zip");
+        private static string SetupPath => Path.Combine(OutputDir, $"ShareXO-{AppVersion}-setup-{Platform}.exe");
+        private static string PortableZipPath => Path.Combine(OutputDir, $"ShareXO-{AppVersion}-portable-{Platform}.zip");
         private static string DebugZipPath => Path.Combine(OutputDir, $"ShareX-{AppVersion}-debug-{Platform}.zip");
         private static string SteamUpdatesDir => Path.Combine(SteamOutputDir, "Updates");
         private static string SteamZipPath => Path.Combine(OutputDir, $"ShareX-{AppVersion}-Steam-{Platform}.zip");
@@ -94,7 +94,7 @@ namespace ShareX.Setup
 
         private static void Main(string[] args)
         {
-            Console.WriteLine("ShareX setup started.");
+            Console.WriteLine("ShareXO setup started.");
 
             CheckArgs(args);
 
@@ -160,7 +160,7 @@ namespace ShareX.Setup
                 FileHelpers.OpenFolder(OutputDir, false);
             }
 
-            Console.WriteLine("ShareX setup successfully completed.");
+            Console.WriteLine("ShareXO setup successfully completed.");
         }
 
         private static void CheckArgs(string[] args)

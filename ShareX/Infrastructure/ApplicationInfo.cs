@@ -17,8 +17,8 @@ namespace ShareX;
 
 internal static class ApplicationInfo
 {
-    internal const string Name = "ShareX";
-    internal const string MutexName = "82E6AC09-0FEF-4390-AD9F-0DD3F5561EFC";
+    internal const string Name = "ShareXO";
+    internal const string MutexName = "E05B4717-CA75-4C03-9DF4-8CB29815A2F5";
     internal static readonly string PipeName = $"{Environment.MachineName}-{Environment.UserName}-{Name}";
 
     internal const ShareXBuild Build =
