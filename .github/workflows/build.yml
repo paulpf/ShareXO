@@ -13,7 +13,7 @@ on:
       - "**/*.gitattributes"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -83,35 +83,8 @@ jobs:
         shell: pwsh
         run: '& "ShareX.Setup\bin\Release\win-x64\ShareX.Setup.exe" -silent -job Release -platform "${{ env.PLATFORM }}"'
 
-      - name: Upload release packages
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@v7
-        with:
-          name: Release-x64
-          path: |
-            Output/ShareX-${{ env.APP_VERSION }}-setup-${{ env.PLATFORM }}.exe
-            Output/ShareX-${{ env.APP_VERSION }}-portable-${{ env.PLATFORM }}.zip
-          if-no-files-found: error
-          retention-days: 1
-
-  release:
-    name: Publish GitHub release
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-      - name: Download release packages
-        uses: actions/download-artifact@v8
-        with:
-          pattern: Release-*
-          path: Output
-          merge-multiple: true
-
       - name: Create checksums
+        if: startsWith(github.ref, 'refs/tags/v')
         shell: pwsh
         run: |
           $files = Get-ChildItem -Path "Output" -File | Sort-Object Name
@@ -123,6 +96,7 @@ jobs:
           Set-Content -Path "RELEASE_BODY.md" -Value $body -NoNewline
 
       - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v3
         with:
           draft: true
